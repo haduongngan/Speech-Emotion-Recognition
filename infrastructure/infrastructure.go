@@ -85,10 +85,10 @@ func goDotEnvVariable(key string) string {
 func loadEnvParameters() {
 	root, _ := os.Getwd()
 
-	// appPort = os.Getenv("PORT")
-	// if appPort == "" {
-	// 	appPort = "19001"
-	// }
+	appPort = os.Getenv("PORT")
+	if appPort == "" {
+		appPort = "19001"
+	}
 
 	dbHost = getStringEnvParameter(DBHOST, goDotEnvVariable(("DBHOST")))
 	dbPort = getStringEnvParameter(DBPORT, goDotEnvVariable("DBPORT"))
