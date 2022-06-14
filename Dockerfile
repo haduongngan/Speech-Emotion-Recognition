@@ -56,4 +56,4 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o spser .
 
 # RUN ls -la /usr/local/bin/infrastructure
 
-CMD ["./spser]
+CMD ["./spser"]
