@@ -1,4 +1,4 @@
-ENV=localhost
+ENV=production
 DBHOST=10.20.34.238
 APPPORT=19001
 DBPORT=5432

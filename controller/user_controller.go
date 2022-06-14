@@ -50,7 +50,6 @@ func internalServerErrorResponse(w http.ResponseWriter, r *http.Request, err err
 	http.Error(w, err.Error(), http.StatusInternalServerError)
 	w.WriteHeader(http.StatusInternalServerError)
 	render.JSON(w, r, &model.Response{
-		Data:    nil,
 		Message: err.Error(),
 		Success: false,
 	})
@@ -61,7 +60,6 @@ func badRequestResponse(w http.ResponseWriter, r *http.Request, err error) {
 	http.Error(w, err.Error(), http.StatusBadRequest)
 	w.WriteHeader(http.StatusBadRequest)
 	render.JSON(w, r, &model.Response{
-		Data:    nil,
 		Message: err.Error(),
 		Success: false,
 	})

@@ -73,7 +73,7 @@ func getStringEnvParameter(envParam string, defaultValue string) string {
 func goDotEnvVariable(key string) string {
 
 	// load .env file
-	err := godotenv.Load(".env.pro")
+	err := godotenv.Load(".env")
 
 	if err != nil {
 		log.Fatalf("Error loading .env file")
@@ -85,10 +85,10 @@ func goDotEnvVariable(key string) string {
 func loadEnvParameters() {
 	root, _ := os.Getwd()
 
-	appPort = os.Getenv("PORT")
-	if appPort == "" {
-		appPort = "19001"
-	}
+	// appPort = os.Getenv("PORT")
+	// if appPort == "" {
+	// 	appPort = "19001"
+	// }
 
 	dbHost = getStringEnvParameter(DBHOST, goDotEnvVariable(("DBHOST")))
 	dbPort = getStringEnvParameter(DBPORT, goDotEnvVariable("DBPORT"))
