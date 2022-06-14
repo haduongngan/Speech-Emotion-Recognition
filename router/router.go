@@ -11,7 +11,6 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
-	"github.com/go-chi/jwtauth"
 	"github.com/go-chi/render"
 	httpSwagger "github.com/swaggo/http-swagger"
 )
@@ -54,29 +53,29 @@ func Router() http.Handler {
 
 		router.Get("/user/all", userController.GetAll)
 		// protected routes
-		router.Group(func(protectedRoute chi.Router) {
-			// Declare middleware
-			protectedRoute.Use(jwtauth.Verifier(infrastructure.GetEncodeAuth()))
-			protectedRoute.Use(jwtauth.Authenticator)
+		// router.Group(func(protectedRoute chi.Router) {
+		// 	// Declare middleware
+		// 	protectedRoute.Use(jwtauth.Verifier(infrastructure.GetEncodeAuth()))
+		// 	protectedRoute.Use(jwtauth.Authenticator)
 
-			// public routers
+		// 	// public routers
 
-			// //---------------User routes--------------------------------
-			// protectedRoute.Route("/user", func(subRoute chi.Router) {
-			// 	subRoute.Post("/create", userController.CreateUser)
-			// 	subRoute.Get("/all", userController.GetAll)
-			// 	subRoute.Delete("/delete/{uid}", userController.DeleteUser)
-			// 	subRoute.Get("/wname", userController.GetByUsername)
-			// 	subRoute.Put("/setPerm", userController.SetPermission)
-			// 	subRoute.Get("/getchild", userController.GetChildUser)
-			// 	subRoute.Get("/getcitizen", userController.GetChildCitizen)
-			// 	subRoute.Get("/progress", userController.GetCensusProgress)
-			// 	subRoute.Put("/set_progress", userController.SetProgress)
-			// 	subRoute.Get("/sex_chart", userController.GetSexChart)
-			// 	subRoute.Get("/age_chart", userController.GetAgeChart)
-			// })
+		// 	// //---------------User routes--------------------------------
+		// 	// protectedRoute.Route("/user", func(subRoute chi.Router) {
+		// 	// 	subRoute.Post("/create", userController.CreateUser)
+		// 	// 	subRoute.Get("/all", userController.GetAll)
+		// 	// 	subRoute.Delete("/delete/{uid}", userController.DeleteUser)
+		// 	// 	subRoute.Get("/wname", userController.GetByUsername)
+		// 	// 	subRoute.Put("/setPerm", userController.SetPermission)
+		// 	// 	subRoute.Get("/getchild", userController.GetChildUser)
+		// 	// 	subRoute.Get("/getcitizen", userController.GetChildCitizen)
+		// 	// 	subRoute.Get("/progress", userController.GetCensusProgress)
+		// 	// 	subRoute.Put("/set_progress", userController.SetProgress)
+		// 	// 	subRoute.Get("/sex_chart", userController.GetSexChart)
+		// 	// 	subRoute.Get("/age_chart", userController.GetAgeChart)
+		// 	// })
 
-		})
+		// })
 	})
 
 	return r

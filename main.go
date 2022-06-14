@@ -10,7 +10,11 @@ import (
 
 func main() {
 	log.Println("Database name: ", infrastructure.GetDBName())
+	appPort := os.Getenv("PORT")
+	if appPort == "" {
+		appPort = "19001"
+	}
 
-	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), router.Router()))
+	log.Fatal(http.ListenAndServe(":"+appPort, router.Router()))
 
 }
