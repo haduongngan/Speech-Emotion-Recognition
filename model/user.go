@@ -62,19 +62,19 @@ type AgeChartData struct {
 }
 type UserRepository interface {
 	GetAll() ([]User, error)
-	CreateUser(user *User) (*User, error)
-	GetById(id int) (*User, error)
-	GetByUsername(username string) (*User, error)
-	DeleteUser(id int) (*User, error)
-	LoginTokenRequest(*User) (bool, error)
-	SetPermission(permission bool, receiverUsername string, startTime *time.Time, endTime *time.Time) (*User, error)
-	GetChildUser(username string) ([]User, error)
-	GetCensusProgress(username string) (interface{}, error)
-	ChangePermissionWhenLogin(username string) error
-	FalsePermissionToChild(username string) error
-	SetProgress(username string, progress int) (*User, error)
-	GetSexChart(username string) (*SexChartData, error)
-	GetChildUsernameAllLevel(username string) ([]string, error)
-	GetAgeChart(username string) (*AgeChartData, error)
-	// GetSexChartForA1() (*SexChartData, error)
+	// CreateUser(user *User) (*User, error)
+	// GetById(id int) (*User, error)
+	// GetByUsername(username string) (*User, error)
+	// DeleteUser(id int) (*User, error)
+	// LoginTokenRequest(*User) (bool, error)
+	// SetPermission(permission bool, receiverUsername string, startTime *time.Time, endTime *time.Time) (*User, error)
+	// GetChildUser(username string) ([]User, error)
+	// GetCensusProgress(username string) (interface{}, error)
+	// ChangePermissionWhenLogin(username string) error
+	// FalsePermissionToChild(username string) error
+	// SetProgress(username string, progress int) (*User, error)
+	// GetSexChart(username string) (*SexChartData, error)
+	// GetChildUsernameAllLevel(username string) ([]string, error)
+	// GetAgeChart(username string) (*AgeChartData, error)
+	// // GetSexChartForA1() (*SexChartData, error)
 }

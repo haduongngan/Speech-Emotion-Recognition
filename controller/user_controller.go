@@ -3,11 +3,13 @@ package controller
 import (
 	"net/http"
 	"spser/model"
+	"spser/service"
 
 	"github.com/go-chi/render"
 )
 
 type userController struct {
+	userService service.UserService
 }
 
 type UserController interface {
@@ -28,5 +30,7 @@ func (c *userController) GetAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func NewUserController() userController {
-	return userController{}
+	return userController{
+		userService: service.NewUserService(),
+	}
 }
