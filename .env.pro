@@ -5,4 +5,4 @@ DBPORT=5432
 DBUSER=spser
 DBPASSWORD='0000'
 DBNAME=spser
-HTTPSWAGGER=http://localhost:19001/api/v1/swagger/doc.json
+HTTPSWAGGER=https://spser.herokuapp.com/api/v1/swagger/doc.json
