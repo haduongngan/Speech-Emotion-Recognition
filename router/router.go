@@ -5,21 +5,25 @@ import (
 	"net/http"
 	"os"
 	"spser/controller"
-	_ "spser/docs"
 	"spser/infrastructure"
+	"time"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
 	"github.com/go-chi/render"
+
+	_ "spser/docs"
+
 	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 var (
-	InfoLog = log.New(os.Stdout, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
-	ErrLog  = log.New(os.Stderr, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
+	infoLog = log.New(os.Stdout, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
+	errLog  = log.New(os.Stderr, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
 )
 
+// Router Root Router
 func Router() http.Handler {
 	r := chi.NewRouter()
 
@@ -27,56 +31,48 @@ func Router() http.Handler {
 	r.Use(middleware.URLFormat)
 	r.Use(middleware.RequestID)
 	r.Use(middleware.Recoverer)
+	r.Use(middleware.Compress(6, "application/json"))
 	r.Use(render.SetContentType(render.ContentTypeJSON))
-
-	acceptCors := cors.New(cors.Options{
+	r.Use(middleware.Timeout(time.Duration(5 * time.Second)))
+	cors := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"}, // Use this to allow specific origin hosts
 		// AllowedOrigins: []string{"*"},
-		// AllowOriginFunc:  checkOrigin,
+		// AllowOriginFunc:  func(r *http.Request, origin string) bool { return true },
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
 		ExposedHeaders:   []string{"Link"},
 		AllowCredentials: true,
 		MaxAge:           300, // Maximum value not ignored by any of major browsers
 	})
-	r.Use(acceptCors.Handler)
-	// swagger route
+	r.Use(cors.Handler)
+
+	// api swagger for develope mode
 	r.Get("/api/v1/swagger/*", httpSwagger.Handler(
 		httpSwagger.URL(infrastructure.GetHTTPSwagger()),
+		httpSwagger.DocExpansion("none"),
 	))
 
+	//declare controller
 	userController := controller.NewUserController()
+
 	r.Route("/api/v1", func(router chi.Router) {
-		// // public routes
-		// router.Post("/user/login", userController.Login)
-		// router.Post("/user/login/jwt", userController.LoginWithToken)
-
+		// Public routes
 		router.Get("/user/all", userController.GetAll)
-		// protected routes
-		// router.Group(func(protectedRoute chi.Router) {
-		// 	// Declare middleware
-		// 	protectedRoute.Use(jwtauth.Verifier(infrastructure.GetEncodeAuth()))
-		// 	protectedRoute.Use(jwtauth.Authenticator)
-
-		// 	// public routers
-
-		// 	// //---------------User routes--------------------------------
-		// 	// protectedRoute.Route("/user", func(subRoute chi.Router) {
-		// 	// 	subRoute.Post("/create", userController.CreateUser)
-		// 	// 	subRoute.Get("/all", userController.GetAll)
-		// 	// 	subRoute.Delete("/delete/{uid}", userController.DeleteUser)
-		// 	// 	subRoute.Get("/wname", userController.GetByUsername)
-		// 	// 	subRoute.Put("/setPerm", userController.SetPermission)
-		// 	// 	subRoute.Get("/getchild", userController.GetChildUser)
-		// 	// 	subRoute.Get("/getcitizen", userController.GetChildCitizen)
-		// 	// 	subRoute.Get("/progress", userController.GetCensusProgress)
-		// 	// 	subRoute.Put("/set_progress", userController.SetProgress)
-		// 	// 	subRoute.Get("/sex_chart", userController.GetSexChart)
-		// 	// 	subRoute.Get("/age_chart", userController.GetAgeChart)
-		// 	// })
-
-		// })
 	})
 
+	// Protected routes
+	// Create serve files api
+
+	r.Group(func(protectedRoute chi.Router) {
+		// Middleware authentication
+		// protectedRoute.Use(jwtauth.Verifier(infrastructure.GetEncodeAuth()))
+		// protectedRoute.Use(jwtauth.Authenticator)
+
+		fs := http.StripPrefix("/storage", http.FileServer(http.Dir(infrastructure.GetStoragePath())))
+		protectedRoute.Get("/storage/*", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			fs.ServeHTTP(w, r)
+		}))
+	})
 	return r
+
 }

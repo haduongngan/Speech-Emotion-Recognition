@@ -9,35 +9,42 @@ import (
 	"github.com/go-chi/jwtauth"
 )
 
-const Algorithm = "RS256"
+// Alogirthm algorithm deinfe
+const Alogirthm = "RS256"
 
 func loadAuthToken() error {
-	// Load privateKey
-	privateReader, err := ioutil.ReadFile(rsaPrivatePath)
+	// Load private key
+	privateReader, err := ioutil.ReadFile(privatePath)
 	if err != nil {
-		log.Println("No RSA private pem file: ", err)
+		InfoLog.Println("NO RSA private pem file")
 		return err
 	}
-
 	privatePem, _ := pem.Decode(privateReader)
-	privateKey, err = x509.ParsePKCS1PrivateKey(privatePem.Bytes)
-	if err != nil {
-		log.Println("Problem creating authentication:", err)
-		return err
+
+	if privatePem.Type != "RSA PRIVATE KEY" {
+		InfoLog.Println("RSA private key is of the wrong type")
 	}
 
-	// Load publicKey
-	publicReader, err := ioutil.ReadFile(rsaPublicPath)
+	// privatePemBytes, err := x509.DecryptPEMBlock(privatePem, []byte(privatePassword))
+	// if err != nil {
+	// 	log.Println(err)
+	// }
+
+	privateKey, err := x509.ParsePKCS1PrivateKey(privatePem.Bytes)
 	if err != nil {
-		log.Println("No RSA public pem file: ", err)
+		log.Println(err)
+	}
+	// Read public key
+	publicReader, err := ioutil.ReadFile(publicPath)
+	if err != nil {
+		InfoLog.Println("No RSA public pem file")
 		return err
 	}
-
 	publicPem, _ := pem.Decode(publicReader)
-	publicKey, err = x509.ParsePKIXPublicKey(publicPem.Bytes)
+	publicKey, _ := x509.ParsePKIXPublicKey(publicPem.Bytes)
 
-	encodeAuth = jwtauth.New(Algorithm, privateKey, publicKey)
-	decodeAuth = jwtauth.New(Algorithm, nil, publicKey)
+	encodeAuth = jwtauth.New(Alogirthm, privateKey, publicKey)
+	decodeAuth = jwtauth.New(Alogirthm, nil, publicKey)
 
 	return nil
 }
