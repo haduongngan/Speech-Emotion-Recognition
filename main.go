@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 	"spser/infrastructure"
 	"spser/router"
 )
@@ -20,6 +21,7 @@ import (
 
 func main() {
 	log.Println("Database name: ", infrastructure.GetDBName())
-	log.Fatal(http.ListenAndServe(":"+infrastructure.GetAppPort(), router.Router()))
+	port := os.Getenv("PORT")
+	log.Fatal(http.ListenAndServe(":"+port, router.Router()))
 
 }
