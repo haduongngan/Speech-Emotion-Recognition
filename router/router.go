@@ -11,6 +11,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
+	"github.com/go-chi/jwtauth"
 	"github.com/go-chi/render"
 
 	_ "spser/docs"
@@ -56,6 +57,9 @@ func Router() http.Handler {
 	userController := controller.NewUserController()
 	segmentController := controller.NewSegmentController()
 	fileController := controller.NewFileController()
+	callController := controller.NewCallController()
+	customerController := controller.NewCustomerController()
+	employeeController := controller.NewEmployeeController()
 
 	r.Route("/api/v1", func(router chi.Router) {
 		// Public routes
@@ -68,16 +72,56 @@ func Router() http.Handler {
 		router.Post("/user/login", userController.Login)
 		router.Post("/user/login/jwt", userController.LoginWithToken)
 
-		//------ segment routers------
+		//------ segment routes------
 		router.Get("/segment/all", segmentController.GetAll)
 		router.Get("/segment/{id}", segmentController.GetById)
 		router.Post("/segment/create", segmentController.CreateSegment)
+		router.Post("/segment/create/multi", segmentController.CreateMultiSegment)
 		router.Delete("/segment/delete/{id}", segmentController.DeleteSegment)
 		router.Get("/segment/call/{callId}", segmentController.GetByCallId)
 		router.Get("/segment/emo/{id}", segmentController.GetEmotion)
 
-		//------ file routers------
+		//------ call routes ------
+		router.Get("/call/all", callController.GetAll)
+		router.Get("/call/{id}", callController.GetById)
+		router.Post("/call/create", callController.CreateCall)
+		router.Post("/call/multi/create", callController.CreateMultiCall)
+		router.Put("/call/update", callController.UpdateCall)
+		router.Delete("/call/delete/{id}", callController.DeleteCall)
+
+		// ------ customer routes ------
+		router.Get("/customer/all", customerController.GetAll)
+		router.Get("/customer/{id}", customerController.GetById)
+		router.Post("/customer/create", customerController.CreateCustomer)
+		router.Put("/customer/update", customerController.UpdateCustomer)
+		router.Delete("/customer/delete/{id}", customerController.DeleteCustomer)
+
+		// ------ employee routes ------
+		router.Get("/employee/all", employeeController.GetAll)
+		router.Get("/employee/{id}", employeeController.GetById)
+		router.Post("/employee/create", employeeController.CreateEmployee)
+		router.Put("/employee/update", employeeController.UpdateEmployee)
+		router.Delete("/employee/delete/{id}", employeeController.DeleteEmployee)
+		router.Get("/employee/calls", employeeController.GetAllCall)
+		router.Put("/employee/calls/filter", employeeController.FilterCallInTime)
+
+		//------ file routes------
 		router.Post("/file/storage/multi/{id}", fileController.UploadMultipleFile)
+
+		router.Group(func(protectedRoute chi.Router) {
+			protectedRoute.Use(jwtauth.Verifier(infrastructure.GetEncodeAuth()))
+			protectedRoute.Use(jwtauth.Authenticator)
+
+			protectedRoute.Route("/customer", func(customerRoute chi.Router) {
+				customerRoute.Get("/calls", customerController.GetAllCall)
+				customerRoute.Put("/filter/calls", customerController.FilterCallInTime)
+			})
+
+			protectedRoute.Route("/employee", func(employeeRoute chi.Router) {
+				employeeRoute.Get("/calls", employeeController.GetAllCall)
+				employeeRoute.Put("/filter/calls", employeeController.FilterCallInTime)
+			})
+		})
 	})
 
 	// Protected routes

@@ -41,6 +41,16 @@ func (r *segmentRepository) CreateSegment(segment *model.Segment) error {
 	return nil
 }
 
+func (r *segmentRepository) CreateMultiSegment(segment []model.Segment) error {
+	db := infrastructure.GetDB()
+
+	if err := db.Model(&model.Segment{}).Create(&segment).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (r *segmentRepository) GetByCallId(callId int) ([]model.Segment, error) {
 	db := infrastructure.GetDB()
 
