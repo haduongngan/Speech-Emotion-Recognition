@@ -117,67 +117,70 @@ export default function Microphone({ pushFile }) {
 
   return (
     <>
-      <Grid item>
-          <IconButton onClick={handleClickOpen}>
-            <MicIcon fontSize="large" />
-          </IconButton>
+      <Grid>
+        <IconButton onClick={handleClickOpen}>
+          <MicIcon fontSize="large" />
+        </IconButton>
       </Grid>
       <Dialog maxWidth="sm" open={open} onClose={handleCancel}>
         <DialogTitle>Record</DialogTitle>
         <DialogContent
-         sx={{
-          '.childClass': {
-            width: "100%"
-          }
-        }}>
+          sx={{
+            ".childClass": {
+              width: "100%",
+            },
+          }}
+        >
           {tempFile ? (
             <div style={{ width: "100%" }} id="wavesurfer-id" />
           ) : (
-              <ReactMic
-                record={record}
-                className="childClass"
-                onStop={onStop}
-                onData={onData}
-                strokeColor="grey"
-                backgroundColor="white"
-              />
+            <ReactMic
+              record={record}
+              className="childClass"
+              onStop={onStop}
+              onData={onData}
+              strokeColor="grey"
+              backgroundColor="white"
+            />
           )}
         </DialogContent>
         <DialogActions>
           <Grid container justify="center" alignItems="center">
             {tempFile && (
               <Grid container justify="center" alignItems="center" xs={12}>
-
                 {!isPlaying ? (
                   <IconButton onClick={togglePlayback}>
-                    <PlayArrowIcon fontSize="large"/>
+                    <PlayArrowIcon fontSize="large" />
                   </IconButton>
                 ) : (
                   <IconButton onClick={togglePlayback}>
-                    <PauseIcon fontSize="large"/>
+                    <PauseIcon fontSize="large" />
                   </IconButton>
                 )}
                 <IconButton onClick={stopPlayback}>
-                  <StopIcon fontSize="large"/>
+                  <StopIcon fontSize="large" />
                 </IconButton>
               </Grid>
             )}
             <Grid container justify="center" alignItems="center">
               {!record && !tempFile && (
                 <IconButton onClick={startRecording}>
-                  <FiberManualRecordIcon fontSize="large"style={{ color: red[500] }} />
+                  <FiberManualRecordIcon
+                    fontSize="large"
+                    style={{ color: red[500] }}
+                  />
                 </IconButton>
               )}
 
               {!record && tempFile && (
                 <IconButton onClick={startRecording}>
-                  <ReplayIcon fontSize="large"/>
+                  <ReplayIcon fontSize="large" />
                 </IconButton>
               )}
 
               {record && (
                 <IconButton onClick={stopRecording}>
-                  <StopIcon fontSize="large"/>
+                  <StopIcon fontSize="large" />
                 </IconButton>
               )}
 

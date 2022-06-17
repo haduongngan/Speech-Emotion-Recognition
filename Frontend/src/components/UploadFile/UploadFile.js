@@ -85,7 +85,7 @@ function UploadFile({ pushFile }) {
   }, [files, tempFile]);
   return (
     <>
-      <Grid item>
+      <Grid>
         <IconButton onClick={handleClickOpen}>
           <CloudUploadIcon fontSize="large" />
         </IconButton>
@@ -103,11 +103,7 @@ function UploadFile({ pushFile }) {
         </DialogContent>
         <DialogActions>
           <Grid container justifyContent="flex-end">
-            <Button
-              onClick={handleDone}
-              variant="contained"
-              disabled={disable}
-            >
+            <Button onClick={handleDone} variant="contained" disabled={disable}>
               save
             </Button>
           </Grid>
