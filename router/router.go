@@ -54,10 +54,26 @@ func Router() http.Handler {
 
 	//declare controller
 	userController := controller.NewUserController()
+	segmentController := controller.NewSegmentController()
 
 	r.Route("/api/v1", func(router chi.Router) {
 		// Public routes
+
+		//----- user routes-----
 		router.Get("/user/all", userController.GetAll)
+		router.Get("/user/wname", userController.GetByUsername)
+		router.Post("/user/create", userController.CreateUser)
+		router.Delete("/user/delete/{uid}", userController.DeleteUser)
+		router.Post("/user/login", userController.Login)
+		router.Post("/user/login/jwt", userController.LoginWithToken)
+
+		//------ segment routers------
+		router.Get("/segment/all", segmentController.GetAll)
+		router.Get("/segment/{id}", segmentController.GetById)
+		router.Post("/segment/create", segmentController.CreateSegment)
+		router.Delete("/segment/delete/{id}", segmentController.DeleteSegment)
+		router.Get("/segment/call/{callId}", segmentController.GetByCallId)
+		router.Get("/segment/emo/{id}", segmentController.GetEmotion)
 	})
 
 	// Protected routes
