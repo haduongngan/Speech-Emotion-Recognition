@@ -1,21 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Button, Stack, TextField, Box } from "@mui/material";
+import { Button, Stack, TextField, Box } from "@mui/material";
 
-import NavBar from "../components/NavBar/NavBar";
 import Microphone from "../components/Microphone/Microphone";
 import AudioPlayer from "../components/AudioPlayer/AudioPlayer";
 import UploadFile from "../components/UploadFile/UploadFile";
 import { uploadAudio } from "../apis/voiceProcessing";
+import AudioPlayerWithStaff from "../components/AudioPlayer/AudioPlayerWithStaff";
 
 function VoiceAllAnalystic() {
   const [files, setFiles] = useState([]);
-
+  const [submited, setSubmited] = useState(false);
+  const [reset, setReset] = useState(false);
   const pushFile = (file) => {
     setFiles([...files, file]);
   };
   useEffect(() => {
-    // console.log("filea", files);
-  }, [files]);
+    if (reset) {
+      setFiles([]);
+      setReset(false);
+    }
+  }, [reset]);
+
+  const onReset = () => {
+    setReset(true);
+  };
 
   const onSubmit = (file) => {
     let path = null;
@@ -25,6 +33,7 @@ function VoiceAllAnalystic() {
         path = URL.createObjectURL(file);
       }
     }
+    setSubmited(true);
     console.log(file);
     console.log(path);
     uploadAudio(path)
@@ -39,27 +48,37 @@ function VoiceAllAnalystic() {
 
   return (
     <>
-      <NavBar />
-      <Grid
-        item
+      <Stack
         spacing={3}
         container
-        direction="column"
         justifyContent="center"
         alignItems="center"
+        direction="row"
         sx={{ m: 4 }}
       >
-        <Stack direction="row" spacing={3}>
-          <Microphone pushFile={pushFile} />
-          <UploadFile pushFile={pushFile} />
-        </Stack>
-        <Stack container direction="column" spacing={3}>
-          {files.map(
-            (file, index) =>
-              file && (
-                <Stack key={index} spacing={2}>
+        <Microphone pushFile={pushFile} onReset={onReset} />
+        <UploadFile pushFile={pushFile} onReset={onReset} />
+      </Stack>
+      <Stack container direction="column" spacing={3}>
+        {files[0] && (
+          <>
+            <Stack
+              spacing={2}
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+              sx={{ minWidth: 600 }}
+            >
+              {submited ? (
+                <AudioPlayerWithStaff
+                  file={files[0]}
+                  phonenumber={"00123123123"}
+                  staff={"ddd"}
+                />
+              ) : (
+                <>
                   <Box sx={{ width: "100%" }}>
-                    <AudioPlayer file={file} />
+                    <AudioPlayer file={files[0]} onReset={onReset} />
                   </Box>
                   <Stack
                     direction="row"
@@ -71,18 +90,25 @@ function VoiceAllAnalystic() {
                     <TextField id="phonenumber" label="Phone Number" />
                     <TextField id="staff" label="staff" />
                   </Stack>
-                </Stack>
-              )
-          )}
-        </Stack>
-        {files[0] && (
-          <Grid justifyContent="center" alignItems="center" sx={{ m: 2 }}>
-            <Button variant="contained" onClick={() => onSubmit(files[0])}>
-              Submit
-            </Button>
-          </Grid>
+                  <Stack
+                    justifyContent="center"
+                    alignItems="center"
+                    sx={{ m: 2 }}
+                  >
+                    <Button
+                      sx={{ maxWidth: 100 }}
+                      variant="contained"
+                      onClick={() => onSubmit(files[0])}
+                    >
+                      Submit
+                    </Button>
+                  </Stack>
+                </>
+              )}
+            </Stack>
+          </>
         )}
-      </Grid>
+      </Stack>
     </>
   );
 }

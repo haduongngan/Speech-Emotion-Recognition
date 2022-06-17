@@ -23,7 +23,7 @@ import { green, red } from "@mui/material/colors";
 
 import "./microphone.css";
 
-export default function Microphone({ pushFile }) {
+export default function Microphone({ pushFile, onReset }) {
   const [record, setRecord] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [tempFile, setTempFile] = React.useState(null);
@@ -80,6 +80,7 @@ export default function Microphone({ pushFile }) {
 
   const handleClickOpen = () => {
     setOpen(true);
+    onReset();
   };
 
   const handleDone = () => {

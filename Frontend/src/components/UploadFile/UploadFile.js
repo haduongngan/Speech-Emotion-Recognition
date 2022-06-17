@@ -54,7 +54,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-function UploadFile({ pushFile }) {
+function UploadFile({ pushFile, onReset }) {
   const [open, setOpen] = useState(false);
   const [files, setFiles] = useState([]);
   const [disable, setDisable] = useState(true);
@@ -62,6 +62,7 @@ function UploadFile({ pushFile }) {
 
   const handleClickOpen = () => {
     setOpen(true);
+    onReset();
   };
   const handleCancel = () => {
     setOpen(false);
