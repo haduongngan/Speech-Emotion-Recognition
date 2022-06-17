@@ -1,0 +1,38 @@
+basePath: /api/v1
+definitions:
+  model.Response:
+    properties:
+      data: {}
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+host: localhost:19001
+info:
+  contact: {}
+  description: SPSER - Speech Emotion Recognition Service.
+  title: Speech Emotion Recognition APIs
+  version: "1.0"
+paths:
+  /user/all:
+    get:
+      consumes:
+      - application/json
+      description: returns all users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: returns all users
+      tags:
+      - user-apis
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
