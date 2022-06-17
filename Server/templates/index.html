@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+		integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css"
+		integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+	<style>
+		.bd-placeholder-img {
+			font-size: 1.125rem;
+			text-anchor: start;
+		}
+
+		@media (min-width: 768px) {
+			.bd-placeholder-img-lg {
+				font-size: 150%;
+			}
+		}
+	</style>
+	<link rel="stylesheet" href="./static/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+	<title>Chest Radiograph Interpretation</title>
+</head>
+
+<body>
+	<div class="header">
+		<a href="#default" class="logo">Chest Radiograph Interpretation</a>
+		<div class="header-right">
+			<a class="active" href="#home">Home</a>
+			<a href="#contact">Contact</a>
+			<a href="https://www.ovhcloud.com/fr/public-cloud/ai-training/">About</a>
+		</div>
+	</div>
+
+	<div class="body">
+		<div class="body-content">
+			<div class="left">
+				<div class="left-content">
+					<div class="content">
+						
+					</div>
+					<div class="content">
+						
+					</div>
+					<div class="content">
+						
+					</div>
+					<div class="content">
+						
+					</div>
+				</div>
+			</div>
+			<div class="right">
+				<div class="right-content">
+					<form method=post enctype=multipart/form-data>
+						<div id="image-data" class="form-content">
+
+							<div class="select_text">Select model:</div>
+							<div class="box">
+								<select name="model_choice">
+									{%for i in range(0, len)%}
+									<option>{{listOfKeys[i]}}</option>
+									{%endfor%}
+								</select>
+							</div>
+
+							<div class="file_text">Upload img:</div>
+							<div class="file_input">
+								<input type="file" name="file" class="custom_file_input" id="inputfile" hidden>
+								<label for="inputfile" class="input_lable">Choose file</label>
+
+							</div>
+
+							<button class="btn btn-primary sub_form" type="submit">Submit</button>
+						</div>
+					</form>
+
+					<div class="img_preview" id="imgPreview">
+						<img src="" alt="" class="img_preview_img">
+						<span class="img_preview_text">
+							Img Preview
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="//code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+		integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+		crossorigin="anonymous"></script>
+	<script src="//stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+		integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+		crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		const inputFile = document.getElementById("inputfile");
+		const previewContainer = document.getElementById("imgPreview");
+		const previewImg = previewContainer.querySelector(".img_preview_img");
+		const previewText = previewContainer.querySelector(".img_preview_text");
+
+		inputFile.addEventListener("change", function () {
+			const file = this.files[0];
+			console.log(file);
+
+			if (file) {
+				const reader = new FileReader();
+				previewText.style.display = "none";
+				previewImg.style.display = "block";
+
+				reader.addEventListener("load", function () {
+					previewImg.setAttribute("src", this.result);
+				});
+
+				reader.readAsDataURL(file);
+			} else {
+				previewText.style.display = null;
+				previewImg.style.display = null;
+				previewImg.setAttribute("src", "");
+			}
+		});
+
+		$('#inputfile').bind('change', function () {
+			let fileSize = this.files[0].size / 1024 / 1024; // this gives in MB
+			if (fileSize > 10) {
+				$("#inputfile").val(null);
+				alert('file is too big. images more than 1MB are not allowed')
+				return
+			}
+
+			//let ext = $('#inputfile').val().split('.').pop().toLowerCase();
+			//if ($.inArray(ext, ['jpg', 'jpeg']) == -1) {
+			//	$("#inputfile").val(null);
+			//	alert('only jpeg/jpg files are allowed!');
+			//}
+		});
+	</script>
+</body>
+
+</html>
