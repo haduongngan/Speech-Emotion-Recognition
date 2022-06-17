@@ -13,3 +13,11 @@ type Call struct {
 	OverallEmotion  string     `json:"overallEmotion" gorm:"overallEmotion"`
 	Segments        []Segment  `json:"segments" gorm:"foreignKey:CallId;constraint:OnDelete:CASCADE, OnUpdate:CASCADE"`
 }
+
+type CallRepository interface {
+	GetAll() ([]Call, error)
+	CreateCall(call *Call) error
+	UpdateCall(call *Call) error
+	GetById(id int) (*Call, error)
+	DeleteCall(id int) error
+}

@@ -55,6 +55,7 @@ func Router() http.Handler {
 	//declare controller
 	userController := controller.NewUserController()
 	segmentController := controller.NewSegmentController()
+	fileController := controller.NewFileController()
 
 	r.Route("/api/v1", func(router chi.Router) {
 		// Public routes
@@ -74,6 +75,9 @@ func Router() http.Handler {
 		router.Delete("/segment/delete/{id}", segmentController.DeleteSegment)
 		router.Get("/segment/call/{callId}", segmentController.GetByCallId)
 		router.Get("/segment/emo/{id}", segmentController.GetEmotion)
+
+		//------ file routers------
+		router.Post("/file/storage/multi/{id}", fileController.UploadMultipleFile)
 	})
 
 	// Protected routes

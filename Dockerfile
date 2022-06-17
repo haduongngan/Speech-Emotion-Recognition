@@ -14,11 +14,12 @@ RUN apk add bash ca-certificates git gcc g++ libc-dev
 # Set WORKDIR
 RUN mkdir -p /work/spser
 WORKDIR /work/spser
+RUN mkdir /storage
 
 # Copy go.mod and go.sum
 COPY go.mod .
 COPY go.sum .
-# RUN ls -la /work/linkepee/
+RUN ls -la /work/linkepee/
 
 # Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
 RUN go mod download

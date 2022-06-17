@@ -16,7 +16,7 @@ app = Flask(__name__)
 cors = CORS(app)
 
 # load model
-model = load_model('/Users/nguyentrongdat/Desktop/Speechprocessing/Flask_API/models/resnet_50_0605_1007_r2.t7')
+model = load_model('models/resnet_50_0605_1007_r2.t7')
 
 model = model.to(device)
 
