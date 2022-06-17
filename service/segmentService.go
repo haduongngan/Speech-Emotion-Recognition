@@ -14,6 +14,7 @@ type SegmentService interface {
 	GetById(id int) (*model.Segment, error)
 	GetByCallId(callId int) ([]model.Segment, error)
 	CreateSegment(new *model.Segment) error
+	CreateMultiSegment(segments []model.Segment) error
 	DeleteSegment(id int) error
 	GetEmotion(id int) (string, error)
 }
@@ -32,6 +33,10 @@ func (s *segmentService) GetByCallId(callId int) ([]model.Segment, error) {
 
 func (s *segmentService) CreateSegment(new *model.Segment) error {
 	return s.segmentRepository.CreateSegment(new)
+}
+
+func (s *segmentService) CreateMultiSegment(segments []model.Segment) error {
+	return s.segmentRepository.CreateMultiSegment(segments)
 }
 
 func (s *segmentService) DeleteSegment(id int) error {

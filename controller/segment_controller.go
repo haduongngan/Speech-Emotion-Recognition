@@ -20,6 +20,7 @@ type SegmentController interface {
 	GetById(w http.ResponseWriter, r *http.Request)
 	GetByCallId(w http.ResponseWriter, r *http.Request)
 	CreateSegment(w http.ResponseWriter, r *http.Request)
+	CreateMultiSegment(w http.ResponseWriter, r *http.Request)
 	DeleteSegment(w http.ResponseWriter, r *http.Request)
 	GetEmotion(w http.ResponseWriter, r *http.Request)
 }
@@ -124,14 +125,46 @@ func (c *segmentController) GetByCallId(w http.ResponseWriter, r *http.Request) 
 // @Router /segment/create [post]
 func (c *segmentController) CreateSegment(w http.ResponseWriter, r *http.Request) {
 	var res *model.Response
-	var segments *model.Segment
+	var segments model.Segment
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&segments); err != nil {
 		badRequestResponse(w, r, err)
 		return
 	}
 
-	err := c.segmentService.CreateSegment(segments)
+	err := c.segmentService.CreateSegment(&segments)
+	if err != nil {
+		internalServerErrorResponse(w, r, err)
+		return
+	}
+
+	res = &model.Response{
+		Message: "CREATE SUCCESS",
+		Success: true,
+	}
+
+	render.JSON(w, r, res)
+}
+
+// CreateMultiSegment create multiple segments into db
+// @tags segment-manager-apis
+// @summary Create multiple segments
+// @description input segmentInfo => []Segment
+// @Accept json
+// @Produce json
+// @Param segmentInfo body []model.Segment true "Segment info"
+// @Success 200 {object} model.Response
+// @Router /segment/create/multi [post]
+func (c *segmentController) CreateMultiSegment(w http.ResponseWriter, r *http.Request) {
+	var res *model.Response
+	var segments []model.Segment
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&segments); err != nil {
+		badRequestResponse(w, r, err)
+		return
+	}
+
+	err := c.segmentService.CreateMultiSegment(segments)
 	if err != nil {
 		internalServerErrorResponse(w, r, err)
 		return
