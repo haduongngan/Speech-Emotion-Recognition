@@ -54,7 +54,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-function UploadFile({ pushFile }) {
+function UploadFile({ pushFile, onReset }) {
   const [open, setOpen] = useState(false);
   const [files, setFiles] = useState([]);
   const [disable, setDisable] = useState(true);
@@ -62,6 +62,7 @@ function UploadFile({ pushFile }) {
 
   const handleClickOpen = () => {
     setOpen(true);
+    onReset();
   };
   const handleCancel = () => {
     setOpen(false);
@@ -85,7 +86,7 @@ function UploadFile({ pushFile }) {
   }, [files, tempFile]);
   return (
     <>
-      <Grid item>
+      <Grid>
         <IconButton onClick={handleClickOpen}>
           <CloudUploadIcon fontSize="large" />
         </IconButton>
@@ -103,11 +104,7 @@ function UploadFile({ pushFile }) {
         </DialogContent>
         <DialogActions>
           <Grid container justifyContent="flex-end">
-            <Button
-              onClick={handleDone}
-              variant="contained"
-              disabled={disable}
-            >
+            <Button onClick={handleDone} variant="contained" disabled={disable}>
               save
             </Button>
           </Grid>

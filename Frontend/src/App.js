@@ -1,12 +1,8 @@
 import React from "react";
-import VoiceAllAnalystic from "./page/VoiceAllAnalystic";
 
+import Router from "./routes";
 function App() {
-  return (
-    <div>
-      <VoiceAllAnalystic />
-    </div>
-  );
+  return <Router />;
 }
 
 export default App;
