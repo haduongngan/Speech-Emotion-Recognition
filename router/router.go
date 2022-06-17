@@ -58,6 +58,11 @@ func Router() http.Handler {
 	r.Route("/api/v1", func(router chi.Router) {
 		// Public routes
 		router.Get("/user/all", userController.GetAll)
+		router.Post("/user/create", userController.CreateUser)
+		router.Post("/user/login", userController.Login)
+		router.Post("/user/login/jwt", userController.LoginWithToken)
+		router.Get("/user/wname", userController.GetByUsername)
+		router.Delete("/user/delete/{uid}", userController.DeleteUser)
 	})
 
 	// Protected routes

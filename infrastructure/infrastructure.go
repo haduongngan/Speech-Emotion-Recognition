@@ -34,6 +34,7 @@ const (
 	EXTENDHOUR         = "EXTEND_ACCESS_HOUR"
 	EXTENDACCESSMINUTE = "EXTEND_ACCESS_MINUTE"
 	EXTENDREFRESHHOUR  = "EXTEND_REFRESH_HOUR"
+	NANO_TO_SECOND     = 1000000000
 
 	KEYMATCHMODEL = "KEY_MATCH_MODEL"
 
@@ -101,7 +102,7 @@ func getStringEnvParameter(envParam string, defaultValue string) string {
 func goDotEnvVariable(key string) string {
 
 	// load .env file
-	err := godotenv.Load(".env.pro")
+	err := godotenv.Load(".env")
 
 	if err != nil {
 		log.Fatalf("Error loading .env file")
@@ -115,7 +116,7 @@ func loadEnvParameters(version int, dbNameArg string, dbPwdArg string) {
 
 	appPort = os.Getenv("PORT")
 	if appPort == "" {
-		appPort = "10001"
+		appPort = "19001"
 	}
 
 	// appPort = getStringEnvParameter(APPPORT, goDotEnvVariable(APPPORT))

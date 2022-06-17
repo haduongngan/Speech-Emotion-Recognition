@@ -1,5 +1,50 @@
 basePath: /api/v1
 definitions:
+  controller.TokenPayload:
+    properties:
+      refreshToken:
+        type: string
+    type: object
+  model.CreateResponse:
+    properties:
+      id:
+        type: integer
+      locationName:
+        type: string
+      message:
+        type: string
+      role:
+        type: string
+      success:
+        type: boolean
+      username:
+        type: string
+    type: object
+  model.LoginResponse:
+    properties:
+      code:
+        type: string
+      locationName:
+        type: string
+      message:
+        type: string
+      permission:
+        type: boolean
+      progress:
+        type: integer
+      refreshToken:
+        type: string
+      role:
+        type: string
+      success:
+        type: boolean
+      token:
+        type: string
+      userId:
+        type: integer
+      username:
+        type: string
+    type: object
   model.Response:
     properties:
       data: {}
@@ -7,6 +52,26 @@ definitions:
         type: string
       success:
         type: boolean
+    type: object
+  model.User:
+    properties:
+      companyName:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      role:
+        type: string
+      username:
+        type: string
+    type: object
+  model.UserPayload:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
     type: object
 host: localhost:19001
 info:
@@ -29,7 +94,113 @@ paths:
             $ref: '#/definitions/model.Response'
       summary: returns all users
       tags:
-      - user-apis
+      - user-manager-apis
+  /user/create:
+    post:
+      consumes:
+      - application/json
+      description: creates new user
+      parameters:
+      - description: User information
+        in: body
+        name: UserInfo
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.CreateResponse'
+      summary: creates new user
+      tags:
+      - user-manager-apis
+  /user/delete/{uid}:
+    delete:
+      consumes:
+      - application/json
+      description: delete user
+      parameters:
+      - description: User ID
+        in: path
+        name: uid
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: delete user
+      tags:
+      - user-manager-apis
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      description: log user in
+      parameters:
+      - description: username & password
+        in: body
+        name: LoginPayload
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      summary: log user in
+      tags:
+      - user-manager-apis
+  /user/login/jwt:
+    post:
+      consumes:
+      - application/json
+      description: login user, return new token string jwt
+      parameters:
+      - description: Insert your access token
+        in: body
+        name: TokenPayload
+        required: true
+        schema:
+          $ref: '#/definitions/controller.TokenPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.LoginResponse'
+      summary: login user
+      tags:
+      - user-manager-apis
+  /user/wname:
+    get:
+      consumes:
+      - application/json
+      description: input username => user
+      parameters:
+      - description: username
+        in: query
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: get user with usn
+      tags:
+      - user-manager-apis
 securityDefinitions:
   ApiKeyAuth:
     in: header

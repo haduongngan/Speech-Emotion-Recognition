@@ -7,23 +7,20 @@ import (
 )
 
 type User struct {
-	Id                 int    `json:"id" gorm:"primaryKey"`
-	Username           string `json:"username" gorm:"unique;column:username"`
-	Password           string `json:"password" gorm:"column:password"`
-	Role               string `json:"role" gorm:"column:role"`
-	CompanyName        string `json:"companyName" gorm:"column:companyName"`
+	Id                 int        `json:"id" gorm:"primaryKey"`
+	Username           string     `json:"username" gorm:"unique;column:username"`
+	Password           string     `json:"password" gorm:"column:password"`
+	Role               string     `json:"role" gorm:"column:role"`
+	CompanyName        string     `json:"companyName" gorm:"column:companyName"`
+	DeletedAt          *time.Time `json:"deletedAt" gorm:"deletedAt" swaggerignore:"true"`
 	jwt.StandardClaims `gorm:"-" swaggerignore:"true"`
 }
 
 type UserResponse struct {
-	Id           int        `json:"id"`
-	Username     string     `json:"username"`
-	LocationName string     `json:"locationName"`
-	Role         string     `json:"role"`
-	Permission   bool       `json:"permission"`
-	StartTime    *time.Time `json:"startTime"`
-	EndTime      *time.Time `json:"endTime"`
-	Progress     int        `json:"progress"`
+	Id          int    `json:"id"`
+	Username    string `json:"username"`
+	CompanyName string `json:"companyName"`
+	Role        string `json:"role"`
 }
 
 type UserPayload struct {
@@ -31,42 +28,41 @@ type UserPayload struct {
 	Password string `json:"password"`
 }
 
-type SetPermissionPayload struct {
-	ReceiverUsername string `json:"receiverUsername"`
-	StartTime        string `json:"startTime"`
-	EndTime          string `json:"endTime"`
-}
+// type SetPermissionPayload struct {
+// 	ReceiverUsername string `json:"receiverUsername"`
+// 	StartTime        string `json:"startTime"`
+// 	EndTime          string `json:"endTime"`
+// }
 type CreateResponse struct {
-	Id           int    `json:"id"`
-	Username     string `json:"username"`
-	LocationName string `json:"locationName"`
-	Role         string `json:"role"`
-	Permission   bool   `json:"permission"`
-	Message      string `json:"message"`
-	Success      bool   `json:"success"`
+	Id          int    `json:"id"`
+	Username    string `json:"username"`
+	CompanyName string `json:"locationName"`
+	Role        string `json:"role"`
+	Message     string `json:"message"`
+	Success     bool   `json:"success"`
 }
 
-type IdProgressPayload struct {
-	Username string `json:"username"`
-	Progress int    `json:"progress"`
-}
+// type IdProgressPayload struct {
+// 	Username string `json:"username"`
+// 	Progress int    `json:"progress"`
+// }
 
-type SexChartData struct {
-	Male   int `json:"male"`
-	Female int `json:"female"`
-}
-type AgeChartData struct {
-	Kid    int
-	Worker int
-	Elder  int
-}
+// type SexChartData struct {
+// 	Male   int `json:"male"`
+// 	Female int `json:"female"`
+// }
+// type AgeChartData struct {
+// 	Kid    int
+// 	Worker int
+// 	Elder  int
+// }
 type UserRepository interface {
 	GetAll() ([]User, error)
-	// CreateUser(user *User) (*User, error)
-	// GetById(id int) (*User, error)
-	// GetByUsername(username string) (*User, error)
-	// DeleteUser(id int) (*User, error)
-	// LoginTokenRequest(*User) (bool, error)
+	CreateUser(user *User) (*User, error)
+	GetById(id int) (*User, error)
+	GetByUsername(username string) (*User, error)
+	DeleteUser(id int) (*User, error)
+	LoginTokenRequest(*User) (bool, error)
 	// SetPermission(permission bool, receiverUsername string, startTime *time.Time, endTime *time.Time) (*User, error)
 	// GetChildUser(username string) ([]User, error)
 	// GetCensusProgress(username string) (interface{}, error)
