@@ -97,6 +97,8 @@ def speech_to_text(AUDIO_PATH):
 GAP_MAX = 0.1
 TOTAL_MAX = 3
 
+def segment(df):
+    segment = []
 
 def segment(df):
     segment = []
