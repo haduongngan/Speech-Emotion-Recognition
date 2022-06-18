@@ -4,6 +4,8 @@ import { Button, Stack, TextField, Box } from "@mui/material";
 import Microphone from "../components/Microphone/Microphone";
 import AudioPlayer from "../components/AudioPlayer/AudioPlayer";
 import UploadFile from "../components/UploadFile/UploadFile";
+import { uploadAudio } from "../apis/voiceProcessing";
+import AudioPlayerWithStaff from "../components/AudioPlayer/AudioPlayerWithStaff";
 
 function AllVoiceAnalystic() {
   const [files, setFiles] = useState([]);
@@ -69,8 +71,9 @@ function AllVoiceAnalystic() {
               {submited ? (
                 <AudioPlayerWithStaff
                   file={files[0]}
-                  phonenumber={"00123123123"}
-                  staff={"ddd"}
+                  phonenumber={"0987654321"}
+                  staff={"Hat Nho"}
+                  onReset={onReset}
                 />
               ) : (
                 <>
@@ -84,8 +87,16 @@ function AllVoiceAnalystic() {
                     spacing={2}
                     sx={{ m: 2 }}
                   >
-                    <TextField id="phonenumber" label="Phone Number" />
-                    <TextField id="staff" label="staff" />
+                    <TextField
+                      id="phonenumber"
+                      label="Phone Number"
+                      defaultValue={"0987654321"}
+                    />
+                    <TextField
+                      id="staff"
+                      label="staff"
+                      defaultValue={"Hat Nho"}
+                    />
                   </Stack>
                   <Stack
                     justifyContent="center"

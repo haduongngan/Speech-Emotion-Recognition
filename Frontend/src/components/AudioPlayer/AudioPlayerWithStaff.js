@@ -11,7 +11,7 @@ function AudioPlayerWithStaff({ file, onReset, phonenumber, staff }) {
       sx={{ minWidth: 600 }}
     >
       <Box sx={{ width: "100%" }}>
-        <AudioPlayer file={file} onReset={() => onReset} />
+        <AudioPlayer file={file} onReset={onReset} />
       </Box>
       <Stack
         direction="column"
