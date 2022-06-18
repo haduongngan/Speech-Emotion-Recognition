@@ -7,7 +7,7 @@ import UploadFile from "../components/UploadFile/UploadFile";
 import { uploadAudio } from "../apis/voiceProcessing";
 import AudioPlayerWithStaff from "../components/AudioPlayer/AudioPlayerWithStaff";
 
-function VoiceAllAnalystic() {
+function AllVoiceAnalystic() {
   const [files, setFiles] = useState([]);
   const [submited, setSubmited] = useState(false);
   const [reset, setReset] = useState(false);
@@ -18,6 +18,7 @@ function VoiceAllAnalystic() {
     if (reset) {
       setFiles([]);
       setReset(false);
+      setSubmited(false);
     }
   }, [reset]);
 
@@ -34,8 +35,6 @@ function VoiceAllAnalystic() {
       }
     }
     setSubmited(true);
-    console.log(file);
-    console.log(path);
     uploadAudio(path)
       .then(() => {
         console.log("sending");
@@ -72,8 +71,9 @@ function VoiceAllAnalystic() {
               {submited ? (
                 <AudioPlayerWithStaff
                   file={files[0]}
-                  phonenumber={"00123123123"}
-                  staff={"ddd"}
+                  phonenumber={"0987654321"}
+                  staff={"Hat Nho"}
+                  onReset={onReset}
                 />
               ) : (
                 <>
@@ -87,8 +87,16 @@ function VoiceAllAnalystic() {
                     spacing={2}
                     sx={{ m: 2 }}
                   >
-                    <TextField id="phonenumber" label="Phone Number" />
-                    <TextField id="staff" label="staff" />
+                    <TextField
+                      id="phonenumber"
+                      label="Phone Number"
+                      defaultValue={"0987654321"}
+                    />
+                    <TextField
+                      id="staff"
+                      label="staff"
+                      defaultValue={"Hat Nho"}
+                    />
                   </Stack>
                   <Stack
                     justifyContent="center"
@@ -112,4 +120,4 @@ function VoiceAllAnalystic() {
     </>
   );
 }
-export default VoiceAllAnalystic;
+export default AllVoiceAnalystic;
