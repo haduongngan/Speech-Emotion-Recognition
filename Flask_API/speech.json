@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "graphite-bebop-353616",
+  "private_key_id": "296ed4aff4653f758d3923da368de17be791288b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCq19/8R5MK+h+y\nD6JmTHNpsZq/GXa6eAvaDsWDVMFw4U7Bsu7n+wCAoOjUhEXNvQZU7Q9JPVV6/uaw\nEkOEL1pIzm/+Od3/EfPZaTlnL3InIxuOZdsGsmqWkKXNF+I9MUO9p90+r/kRg2HG\nZCNcTZDi9bMx4TwsqdQqx0uWiwrFnz6YHYfULBbNgSbsqdD5sc7yGeXBrMTfKv29\n4cGXud3/Qju1naiXDims8MxqjIPVtdc/ba/E3vU2Deh19XPvWUbFtV2JL+UxDEH8\njNoPCAlIdqoiRXfqTW8gqxuzNilDxgNxTquAQfF2zacDk/MAQkvyR+gDixbwZ8z0\nbIVsLI+NAgMBAAECggEACvUwsSI4HLahTM7y6CPULT3Ogp5T/q7Pd8uFwKAxjhdt\ncUAUUb3IMPfhJyxau9D5dH4GAnkUIAD0c+uf9/z/ifbvuPsmMYOJw/KbU3J4HGmE\njXQcAch0zLZ3Y/m5sZoU0bfQGYK483YdUde/at6wwdXnifX74ZN8/8drojrF1JoA\nnsfckdp3ASDww0CdY5QQTl7nMd+6ZGv4sLOMgFEn2MUeeo0mF6+dY3DZ8CDyQjtJ\nAnP+Ts5h6N97SLd1MJMPWvHE1v9YEeeyFXCwBcSeZfAFJIP7MOwkY6BhOmm4y2UL\ncPveKHKFBHkpo2W3ll1Sz3tIOs7cSZHgteqBECfbUQKBgQDuk4UnFPpXnCx260mL\nMyjduVJm4l5mT13xv9bvJ26xW/NATzG7ZkKTXPl+Dev8KYm/nh1R9PVDfdPHx8bd\n3atLdwm/zS3EC41laOh5+cwVnQ1pMDwmlnzIHB/pngK30cNSAKthz55sKd3Y7QVA\nAfFVU+fHa0PuWfRB4K7DQZni+QKBgQC3UgCW93cfWcXZb+uD+Yr9UJQ+LYn50kDA\nzHv3BKvBHuFIdfGYyn+Tz+AUWq9tYfX/OXn6EUd4NoNh/D4+XmaElE3HpiIo3aVa\nJcobLOqTvv75uAUiIm8Zd0vlscBq88VvolCTJgvY6z1TdYMJly9N9qWSoK1I5ndN\nVd4Jn+eiNQKBgC2imj23jYtknDzDFPZDevWulUyI0HXRiK7Ne1eTu2DBre4HOAQY\ns3NsvWyXTSSW7XpxzDn5GVEnqHL2i9u0oyd0RbEiljaB3zIetxld5uPbfs04JMlc\nz9GXT6NoTizLOwlch2vWQv99oqnz7KUpufgQbK2AnyXgnxBa4hMHYWBBAoGAY/VD\nuw2ul5qkxh4/xlOQVPXWD11XabAafMZDJfsXCBOldZRSKyTnkZp8rbyRAUy0DPmz\nKAa5+LOIyin3apygu9P94UoWQEAzREdsv4qrUeqIL3QG4Ij0GWeyK8nTiL3pPyi7\nVLEfLqV+Z/6gd99G/PTrbVtNgX2hObsDei4F6K0CgYB5dGiEEfnQQM2/gAlxocXF\nkOIKycVkws7vYt8Z3uO0mQbQTHyYIQwVxPxb0r+dPr1FlkuzGsLEVU2DCKSeIiKe\njk6D9um4GGHsR+NjBRvVQFWNZx0YmbKkUpI7mi7gDtMD5d0SIAbuorOcjd9K86K4\nHRYcIFQB0Zxf8RfEPdkzqg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "speech-api-247@graphite-bebop-353616.iam.gserviceaccount.com",
+  "client_id": "113825536593333146604",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/speech-api-247%40graphite-bebop-353616.iam.gserviceaccount.com"
+}
