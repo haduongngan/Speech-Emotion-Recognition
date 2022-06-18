@@ -1,3 +1,4 @@
+from unittest import result
 import requests
 from google.cloud import speech_v1p1beta1 as speech
 from pydub import AudioSegment
@@ -5,6 +6,7 @@ from sox import Transformer
 import soundfile
 import moviepy.editor as moviepy
 import pandas as pd
+import numpy as np
 
 import os
 # os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="/Users/nguyentrongdat/Documents/19021240_NguyenTrongDat/analog-crossing-353415-448731397826.json"
@@ -86,8 +88,52 @@ def speech_to_text(AUDIO_PATH):
 
     print(response.text)
 
+# segment
+# input : dataframe['words','speaker_tag','start_time','end_time','duration']
+# output : dataframe['start_time','end_time','speaker']
+GAP_MAX = 0.25
+TOTAL_MAX = 3
 
+def segment(df):
+    segment = []
 
+    id_segment = 1
+    start_time = df['start_time'][0]
+    end_time = df['end_time'][0]
+    id_speaker = df['speaker_tag'][0]
+    total_time = df['duration'][0] 
+
+    result = np.array([])
+    result = np.hstack((result, start_time))
+    
+    for i in range(df.shape[0]):
+        if (i == df.shape[0] - 1):
+            result = np.hstack((result, end_time))
+            id = int(id_speaker)
+            result = np.hstack((result, id))
+            segment.append(result)
+        
+        elif (id_speaker != df['speaker_tag'][i + 1] or (df['start_time'][i + 1] - end_time) > GAP_MAX or total_time > TOTAL_MAX):
+            result = np.hstack((result, end_time))
+            id = int(id_speaker)
+            result = np.hstack((result, id))
+            segment.append(result)
+        
+            id_segment = id_segment + 1
+            result = np.array([])
+            start_time = df['start_time'][i + 1]
+            result = np.hstack((result, start_time))
+            end_time = df['end_time'][i + 1]
+            total_time = df['duration'][i + 1]
+            id_speaker = df['speaker_tag'][i + 1]
+        
+        else:
+            end_time = df['end_time'][i + 1]
+            total_time = total_time + df['duration'][i + 1]
+
+    segment_df = pd.DataFrame(segment, columns=['start_time','end_time','speaker'])
+    segment_df['speaker'].astype('int64')
+    return segment_df
 
 
 # test call api and add to dataframe
@@ -97,7 +143,8 @@ df.to_csv('df.csv', sep="\t", encoding='utf-8')
 print(df.head())
 # todo: Convert from dataframe to whatever u like
 
-
+result = segment(df)
+print(result.head())
 
 # token_wav('/Users/nguyentrongdat/Documents/19021240_NguyenTrongDat/6.wav')
 # speech_to_text('/Users/nguyentrongdat/Documents/19021240_NguyenTrongDat/6.wav')
