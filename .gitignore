@@ -26,5 +26,5 @@ yarn-error.log*
 
 
 .idea/
-
+__pycache__
 React_Frontend
