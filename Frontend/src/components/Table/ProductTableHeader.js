@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  TableRow,
-  Stack,
-  TableCell,
-  TableHead,
-  Typography,
-} from "@mui/material";
+import { TableRow, TableCell, TableHead } from "@mui/material";
 // import { IProductLabelHeader } from "../types/product";
 
 function ProductTableHeader({ head }) {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Card,
   Table,
@@ -24,19 +24,19 @@ const TABLE_HEAD = [
   { key: "staffId", label: "Staff Id" },
   { key: "staffEmotion", label: "Staff Emotion" },
 ];
-const INIT_DATA = {
-  color: 0,
-  errorDescription: "",
-  id: "",
-  image: "",
-  name: "",
-  sku: "",
-};
+// const INIT_DATA = {
+//   color: 0,
+//   errorDescription: "",
+//   id: "",
+//   image: "",
+//   name: "",
+//   sku: "",
+// };
 function VoicesHistory() {
   // const [isLoading, setIsLoading] = useState(false);
   // const [colors, setColors] = useState<IProductColor[]>([]);
   // const [data, setData] = useState<IProduct[]>([]);
-  const [show, setShow] = useState(false);
+  // const [show, setShow] = useState(false);
 
   return (
     <div>
