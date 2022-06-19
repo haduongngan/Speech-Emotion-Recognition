@@ -497,7 +497,7 @@ def load_model(path_model):
     old_model = path_model
     if args.train_from == 1 and os.path.isfile(old_model):
         print("| Load pretrained at  %s..." % old_model)
-        checkpoint = torch.load(old_model, map_location=lambda storage, loc: storage)
+        checkpoint = torch.load(old_model, map_location=torch.device('cpu'))
         tmp = checkpoint['model']
         model = unparallelize_model(tmp)
         try:
