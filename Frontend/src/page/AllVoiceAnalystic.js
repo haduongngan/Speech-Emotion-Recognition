@@ -27,13 +27,15 @@ function AllVoiceAnalystic() {
   };
 
   const onSubmit = (file) => {
-    let path = null;
-    if (file) {
-      if (file.blobURL) path = file.blobURL;
-      else {
-        path = URL.createObjectURL(file);
-      }
-    }
+    // let path = null;
+    let path = new FormData();
+    path.append("file", file);
+    // if (file) {
+    //   if (file.blobURL) path = file.blobURL;
+    //   else {
+    //     path = URL.createObjectURL(file);
+    //   }
+    // }
     setSubmited(true);
     uploadAudio(path)
       .then(() => {
