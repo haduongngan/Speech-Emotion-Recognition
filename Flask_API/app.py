@@ -66,6 +66,13 @@ def delete_all_file():
     os.mkdir('/Users/nguyentrongdat/Desktop/Speechprocessing/Flask_API/audio_speaker/2')
     os.mkdir('/Users/nguyentrongdat/Desktop/Speechprocessing/Flask_API/audio_speaker/3')
 
+def getjsonreturn():
+    gender = prediction_gender('1.wav')
+    if(gender ==1):
+        gender = 'male'
+    else:
+        gender = 'female'
+    return gender
 
 
 def get_gerder_one_people(path):
@@ -135,5 +142,5 @@ def hello_world():
 
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
+# if __name__ == "__main__":
+#     app.run(debug=True)

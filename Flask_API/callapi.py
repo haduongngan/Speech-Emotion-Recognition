@@ -74,6 +74,7 @@ def token_wav(path):
 
 
 
+
 def speech_to_text(AUDIO_PATH):
     url = "https://viettelgroup.ai/voice/api/asr/v1/rest/decode_file"
     headers = {
