@@ -32,15 +32,15 @@ func (r *customerRepository) GetByUserId(userId int) (*model.Customer, error) {
 	return customer, nil
 }
 
-func (r *customerRepository) GetAllCall(userId int) ([]model.Call, error) {
+func (r *customerRepository) GetAllCall(phone string) ([]model.Call, error) {
 	db := infrastructure.GetDB()
 
-	customer, err := r.GetByUserId(userId)
-	if err != nil {
-		return nil, err
-	}
+	// customer, err := r.GetByUserId(phone)
+	// if err != nil {
+	// 	return nil, err
+	// }
 	var calls []model.Call
-	if err := db.Preload("Segments").Model(&model.Call{}).Where("customer_id = ?", customer.Id).Find(&calls).Error; err != nil {
+	if err := db.Preload("Segments").Model(&model.Call{}).Where("phone = ?", phone).Find(&calls).Error; err != nil {
 		return nil, err
 	}
 
@@ -49,7 +49,7 @@ func (r *customerRepository) GetAllCall(userId int) ([]model.Call, error) {
 
 func (r *customerRepository) FilterCallInTime(payload *model.CallTimeFilterPayload) ([]model.Call, error) {
 	var callsInTime []model.Call
-	allCallsOfUser, err := r.GetAllCall(payload.UserId)
+	allCallsOfUser, err := r.GetAllCall(payload.Phone)
 	if err != nil {
 		return nil, err
 	}
@@ -73,10 +73,10 @@ func (r *customerRepository) CreateCustomer(customer *model.Customer) error {
 
 }
 
-func (r *customerRepository) UpdateCustomer(customer *model.Customer) error {
+func (r *customerRepository) UpdateCustomer(payload *model.CustomerPhoneUpdate) error {
 	db := infrastructure.GetDB()
 
-	if err := db.Session(&gorm.Session{FullSaveAssociations: true}).Model(&model.Customer{}).Updates(customer).Error; err != nil {
+	if err := db.Session(&gorm.Session{FullSaveAssociations: true}).Model(&model.Customer{}).Where("id = ?", payload.Id).Updates(payload).Error; err != nil {
 		return err
 	}
 
