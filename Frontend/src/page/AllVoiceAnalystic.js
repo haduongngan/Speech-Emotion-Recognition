@@ -110,10 +110,10 @@ function AllVoiceAnalystic() {
               container
               justifyContent="center"
               alignItems="center"
-              direction="row"
+              direction="column"
               sx={{ m: 4 }}
             >
-              {!submited ? (
+              {submited ? (
                 loading ? (
                   <Box align="center" colSpan={12} sx={{ py: 3 }}>
                     <CircularProgress color="secondary" />
