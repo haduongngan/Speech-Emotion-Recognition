@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Grid from "@mui/material/Grid";
+import {
+  Button,
+  Stack,
+  TextField,
+  Box,
+  Typography,
+  Card,
+  // getNativeSelectUtilityClasses,
+} from "@mui/material";
 
 import NavBar from "../components/NavBar/NavBar";
 import Microphone from "../components/Microphone/Microphone";
@@ -8,11 +16,39 @@ import UploadFile from "../components/UploadFile/UploadFile";
 import { uploadAudio } from "../apis/voiceProcessing";
 import AudioPlayerWithStaff from "../components/AudioPlayer/AudioPlayerWithStaff";
 import Emotion from "../components/Table/Emotion";
-import VoicesHistory from "../components/Table/VoicesHistory";
-
+// import VoicesHistory from "../components/Table/VoicesHistory";
+const fakeData = {
+  customer: {
+    emo: {
+      happy: 2,
+      sad: 2,
+      angry: 0,
+      calm: 0,
+      surprised: 0,
+      disgusted: 0,
+    },
+    gender: "male",
+    feel: "happy",
+  },
+  staff: {
+    emo: {
+      happy: 2,
+      sad: 2,
+      angry: 0,
+      calm: 0,
+      surprised: 0,
+      disgusted: 0,
+    },
+    gender: "male",
+    feel: "happy",
+  },
+  dur: "12",
+};
 function AllVoiceAnalystic() {
   const [files, setFiles] = useState([]);
-
+  const [submited, setSubmited] = useState(false);
+  const [reset, setReset] = useState(false);
+  const [data, setData] = useState(null);
   const pushFile = (file) => {
     setFiles([...files, file]);
   };
@@ -36,8 +72,9 @@ function AllVoiceAnalystic() {
     }
     setSubmited(true);
     uploadAudio(path)
-      .then(() => {
-        console.log("sending");
+      .then((res) => {
+        console.log("res", res.data.data);
+        setData(res.data.data);
       })
       .catch((err) => {
         console.log(err.message);
@@ -60,10 +97,6 @@ function AllVoiceAnalystic() {
         <UploadFile pushFile={pushFile} onReset={onReset} />
       </Stack>
       <Stack container direction="column" spacing={1}>
-        <Stack container direction="row" justifyContent="center" spacing={3}>
-          <Emotion title={"Emotion Analystics"} />
-          <VoicesHistory />
-        </Stack>
         {files[0] && (
           <>
             <Stack
@@ -73,13 +106,40 @@ function AllVoiceAnalystic() {
               alignItems="center"
               sx={{ minWidth: 600 }}
             >
-              {submited ? (
-                <AudioPlayerWithStaff
-                  file={files[0]}
-                  phonenumber={"0987654321"}
-                  staff={"Hat Nho"}
-                  onReset={onReset}
-                />
+              {!submited ? (
+                <Stack container direction="column" spacing={1}>
+                  <Stack
+                    container
+                    direction="row"
+                    justifyContent="center"
+                    spacing={3}
+                  >
+                    <AudioPlayerWithStaff
+                      file={files[0]}
+                      phonenumber={"0987654321"}
+                      staff={"Hat Nho"}
+                      onReset={onReset}
+                    />
+                  </Stack>
+                  <Stack container direction="row" justifyContent="center">
+                    <Card sx={{ width: 845 }}>
+                      <Typography textAlign="center" p={2}>
+                        {" "}
+                        Duration: {data.dur}{" "}
+                      </Typography>
+                    </Card>
+                  </Stack>
+                  <Stack container direction="row" justifyContent="center">
+                    <Emotion
+                      title={"Customer Emotion Analystics"}
+                      data={data.customer}
+                    />
+                    <Emotion
+                      title={"Staff Emotion Analystics"}
+                      data={data.staff}
+                    />
+                  </Stack>
+                </Stack>
               ) : (
                 <>
                   <Box sx={{ width: "100%" }}>
