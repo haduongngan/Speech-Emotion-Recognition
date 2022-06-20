@@ -1,26 +1,25 @@
 package model
 
 import (
-	"time"
-
 	"github.com/dgrijalva/jwt-go"
+	"gorm.io/gorm"
 )
 
 type User struct {
-	Id                 int        `json:"id" gorm:"primaryKey"`
-	Username           string     `json:"username" gorm:"unique;column:username"`
-	Password           string     `json:"password" gorm:"column:password"`
-	Role               string     `json:"role" gorm:"column:role"`
-	CompanyName        string     `json:"companyName" gorm:"column:companyName"`
-	DeletedAt          *time.Time `json:"deletedAt" gorm:"deletedAt" swaggerignore:"true"`
+	Id                 int            `json:"id" gorm:"primaryKey"`
+	Username           string         `json:"username" gorm:"unique;column:username"`
+	Password           string         `json:"password" gorm:"column:password"`
+	Role               string         `json:"role" gorm:"column:role"`
+	CompanyName        string         `json:"companyName" gorm:"column:companyName"`
+	DeletedAt          gorm.DeletedAt `json:"-" swaggerignore:"true"`
 	jwt.StandardClaims `gorm:"-" swaggerignore:"true"`
 }
 
 type UserResponse struct {
 	Id          int    `json:"id"`
 	Username    string `json:"username"`
-	CompanyName string `json:"companyName"`
 	Role        string `json:"role"`
+	CompanyName string `json:"companyName"`
 }
 
 type UserPayload struct {
@@ -28,16 +27,11 @@ type UserPayload struct {
 	Password string `json:"password"`
 }
 
-// type SetPermissionPayload struct {
-// 	ReceiverUsername string `json:"receiverUsername"`
-// 	StartTime        string `json:"startTime"`
-// 	EndTime          string `json:"endTime"`
-// }
 type CreateResponse struct {
 	Id          int    `json:"id"`
 	Username    string `json:"username"`
-	CompanyName string `json:"locationName"`
 	Role        string `json:"role"`
+	CompanyName string `json:"companyName"`
 	Message     string `json:"message"`
 	Success     bool   `json:"success"`
 }
@@ -47,15 +41,6 @@ type CreateResponse struct {
 // 	Progress int    `json:"progress"`
 // }
 
-// type SexChartData struct {
-// 	Male   int `json:"male"`
-// 	Female int `json:"female"`
-// }
-// type AgeChartData struct {
-// 	Kid    int
-// 	Worker int
-// 	Elder  int
-// }
 type UserRepository interface {
 	GetAll() ([]User, error)
 	CreateUser(user *User) (*User, error)

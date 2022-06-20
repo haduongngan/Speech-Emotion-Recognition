@@ -17,11 +17,11 @@ type userController struct {
 
 type UserController interface {
 	GetAll(w http.ResponseWriter, r *http.Request)
+	GetByUsername(w http.ResponseWriter, r *http.Request)
 	CreateUser(w http.ResponseWriter, r *http.Request)
 	DeleteUser(w http.ResponseWriter, r *http.Request)
 	Login(w http.ResponseWriter, r *http.Request)
 	LoginWithToken(w http.ResponseWriter, r *http.Request)
-	GetByUsername(w http.ResponseWriter, r *http.Request)
 }
 
 // GetAll returns all users
@@ -54,6 +54,7 @@ func (c *userController) GetAll(w http.ResponseWriter, r *http.Request) {
 // @Description input username => user
 // @Accept json
 // @Produce json
+// @Security ApiKeyAuth
 // @Param username query string true "username"
 // @Success 200 {object} model.Response
 // @Router /user/wname [get]
@@ -94,33 +95,39 @@ func (c *userController) GetByUsername(w http.ResponseWriter, r *http.Request) {
 // @Description creates new user
 // @Accept json
 // @Produce json
+// @Security ApiKeyAuth
 // @Param UserInfo body model.User true "User information"
 // @Success 200 {object} model.CreateResponse
 // @Router /user/create [post]
 func (c *userController) CreateUser(w http.ResponseWriter, r *http.Request) {
-	var jsonResponse *model.Response
+	var jsonResponse *model.CreateResponse
 	var newUser *model.User
 
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&newUser); err != nil {
-		badRequestResponse(w, r, err)
+		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, http.StatusText(http.StatusBadRequest), 400)
+		jsonResponse = &model.CreateResponse{
+			Message: err.Error(),
+			Success: false,
+		}
+		render.JSON(w, r, jsonResponse)
 		return
 	}
 
-	new, err := c.userService.CreateUser(newUser)
+	userResponse, err := c.userService.CreateUser(newUser)
 	if err != nil {
 		internalServerErrorResponse(w, r, err)
 		return
 	}
 
-	jsonResponse = &model.Response{
-		Data:    new,
-		Message: "OK",
-		Success: true,
+	jsonResponse = &model.CreateResponse{
+		Username:    userResponse.Username,
+		Role:        userResponse.Role,
+		CompanyName: userResponse.CompanyName,
+		Message:     "OK",
+		Success:     true,
 	}
-
-	render.JSON(w, r, jsonResponse)
-
 }
 
 // DeleteUser deletes user with UserID
@@ -130,6 +137,7 @@ func (c *userController) CreateUser(w http.ResponseWriter, r *http.Request) {
 // @Accept json
 // @Produce json
 // @Param uid path integer true "User ID"
+// @Security ApiKeyAuth
 // @Success 200 {object} model.Response
 // @Router /user/delete/{uid} [delete]
 func (c *userController) DeleteUser(w http.ResponseWriter, r *http.Request) {
@@ -206,7 +214,7 @@ func (c *userController) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	//user da bi xoa
-	if user.DeletedAt != nil {
+	if user == nil {
 		jsonResponse = &model.LoginResponse{
 			Token:        "user has been deleted!",
 			RefreshToken: "user has been deleted!",
@@ -221,6 +229,7 @@ func (c *userController) Login(w http.ResponseWriter, r *http.Request) {
 			UserId:       user.Id,
 			Role:         user.Role,
 			Username:     user.Username,
+			CompanyName:  user.CompanyName,
 			Message:      "Logged in successfully as " + user.Role,
 			Code:         "200",
 			Success:      true,
@@ -282,6 +291,7 @@ func (c *userController) LoginWithToken(w http.ResponseWriter, r *http.Request) 
 			UserId:       user.Id,
 			Username:     user.Username,
 			Role:         user.Role,
+			CompanyName:  user.CompanyName,
 			Message:      "jwt login successful!",
 			Code:         "200",
 			Success:      true,

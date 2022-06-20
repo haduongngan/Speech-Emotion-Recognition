@@ -9,6 +9,294 @@
     "host": "localhost:19001",
     "basePath": "/api/v1",
     "paths": {
+        "/file/storage/multi/{id}": {
+            "post": {
+                "description": "Import file",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "file-manager-apis"
+                ],
+                "summary": "Import file",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "file data",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "sound"
+                        ],
+                        "type": "string",
+                        "description": "type",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/file/storage/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Delete file",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "file-manager-apis"
+                ],
+                "summary": "Delete file",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "sound"
+                        ],
+                        "type": "string",
+                        "description": "type",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "name",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/segment/all": {
+            "get": {
+                "description": "input none =\u003e []Segment",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "segment-manager-apis"
+                ],
+                "summary": "Get all segments",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/segment/call/{callId}": {
+            "get": {
+                "description": "input callId =\u003e []Segment",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "segment-manager-apis"
+                ],
+                "summary": "Get segment with CallId",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Call Id",
+                        "name": "callId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/segment/create": {
+            "post": {
+                "description": "input segmentInfo =\u003e Segment",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "segment-manager-apis"
+                ],
+                "summary": "Create segment",
+                "parameters": [
+                    {
+                        "description": "Segment info",
+                        "name": "segmentInfo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Segment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/segment/delete/{id}": {
+            "delete": {
+                "description": "input id =\u003e deleted segment",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "segment-manager-apis"
+                ],
+                "summary": "deletes one segment from db with id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Segment Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/segment/emo/{id}": {
+            "get": {
+                "description": "input id =\u003e emotion",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "segment-manager-apis"
+                ],
+                "summary": "Get segment emotion with Id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Segment Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/segment/{id}": {
+            "get": {
+                "description": "input id =\u003e Segment",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "segment-manager-apis"
+                ],
+                "summary": "Get segment with Id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Segment Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/user/all": {
             "get": {
                 "description": "returns all users",
@@ -34,6 +322,14 @@
         },
         "/user/create": {
             "post": {
+<<<<<<< HEAD
+=======
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+>>>>>>> c49ca4fb5c7f89869d6acc105410659212e1fa24
                 "description": "creates new user",
                 "consumes": [
                     "application/json"
@@ -68,6 +364,14 @@
         },
         "/user/delete/{uid}": {
             "delete": {
+<<<<<<< HEAD
+=======
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+>>>>>>> c49ca4fb5c7f89869d6acc105410659212e1fa24
                 "description": "delete user",
                 "consumes": [
                     "application/json"
@@ -165,6 +469,14 @@
         },
         "/user/wname": {
             "get": {
+<<<<<<< HEAD
+=======
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+>>>>>>> c49ca4fb5c7f89869d6acc105410659212e1fa24
                 "description": "input username =\u003e user",
                 "consumes": [
                     "application/json"
@@ -208,12 +520,21 @@
         "model.CreateResponse": {
             "type": "object",
             "properties": {
+<<<<<<< HEAD
                 "id": {
                     "type": "integer"
                 },
                 "locationName": {
                     "type": "string"
                 },
+=======
+                "companyName": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+>>>>>>> c49ca4fb5c7f89869d6acc105410659212e1fa24
                 "message": {
                     "type": "string"
                 },
@@ -234,18 +555,25 @@
                 "code": {
                     "type": "string"
                 },
+<<<<<<< HEAD
                 "locationName": {
+=======
+                "companyName": {
+>>>>>>> c49ca4fb5c7f89869d6acc105410659212e1fa24
                     "type": "string"
                 },
                 "message": {
                     "type": "string"
                 },
+<<<<<<< HEAD
                 "permission": {
                     "type": "boolean"
                 },
                 "progress": {
                     "type": "integer"
                 },
+=======
+>>>>>>> c49ca4fb5c7f89869d6acc105410659212e1fa24
                 "refreshToken": {
                     "type": "string"
                 },
@@ -269,7 +597,9 @@
         "model.Response": {
             "type": "object",
             "properties": {
-                "data": {},
+                "data": {
+                    "type": "object"
+                },
                 "message": {
                     "type": "string"
                 },
@@ -278,6 +608,26 @@
                 }
             }
         },
+<<<<<<< HEAD
+=======
+        "model.Segment": {
+            "type": "object",
+            "properties": {
+                "callId": {
+                    "type": "integer"
+                },
+                "emotion": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "segNum": {
+                    "type": "integer"
+                }
+            }
+        },
+>>>>>>> c49ca4fb5c7f89869d6acc105410659212e1fa24
         "model.User": {
             "type": "object",
             "properties": {

@@ -101,7 +101,7 @@ func (s *userService) LoginWithToken(token string) (*model.User, string, string,
 		return nil, "Invalid token", "", false, err
 	}
 
-	timeLeft := user.VerifyExpiresAt(time.Now().UnixNano()/infrastructure.NANO_TO_SECOND, true)
+	timeLeft := user.VerifyExpiresAt(time.Now().UnixNano()/100000000, true)
 	if !timeLeft {
 		infrastructure.ErrLog.Printf("Session expired!")
 		return nil, "Token exceeded expire time!", "", false, nil
@@ -123,6 +123,23 @@ func (s *userService) LoginWithToken(token string) (*model.User, string, string,
 
 	return user, newTokenString, newRefreshTokenString, true, nil
 }
+
+// func (s *userService) SetPermission(permission bool, receiverUsername string) (*model.UserResponse, error) {
+// 	user, err := s.userRepository.SetPermission(permission, receiverUsername)
+// 	if err != nil {
+// 		infrastructure.ErrLog.Printf(err.Error())
+// 		return nil, err
+// 	}
+
+// 	userResponse := &model.UserResponse{
+// 		Id:           user.Id,
+// 		Username:     user.Username,
+// 		LocationName: user.LocationName,
+// 		Role:         user.Role,
+// 	}
+// 	return userResponse, nil
+// }
+
 func (s *userService) GetByUsername(username string) (*model.UserResponse, error) {
 	user, err := s.userRepository.GetByUsername(username)
 	if err != nil {
@@ -143,7 +160,6 @@ func NewUserService() UserService {
 		userRepository: repository.NewUserRepository(),
 	}
 }
-
 func checkPassword(user *model.User, password string) error {
 	// check password: hashed one.
 	// compare: hashed, plain

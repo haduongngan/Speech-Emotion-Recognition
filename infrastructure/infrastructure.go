@@ -165,7 +165,7 @@ func loadEnvParameters(version int, dbNameArg string, dbPwdArg string) {
 	NameAccessTokenInCookie = "accessTokenEP"
 
 	storagePath = rootPath + "/storage/"
-	storageProductImgPath = storagePath + "products/"
+	// storageProductImgPath = storagePath + "products/"
 
 }
 

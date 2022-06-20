@@ -7,10 +7,17 @@ definitions:
     type: object
   model.CreateResponse:
     properties:
+<<<<<<< HEAD
       id:
         type: integer
       locationName:
         type: string
+=======
+      companyName:
+        type: string
+      id:
+        type: integer
+>>>>>>> c49ca4fb5c7f89869d6acc105410659212e1fa24
       message:
         type: string
       role:
@@ -24,6 +31,7 @@ definitions:
     properties:
       code:
         type: string
+<<<<<<< HEAD
       locationName:
         type: string
       message:
@@ -32,6 +40,12 @@ definitions:
         type: boolean
       progress:
         type: integer
+=======
+      companyName:
+        type: string
+      message:
+        type: string
+>>>>>>> c49ca4fb5c7f89869d6acc105410659212e1fa24
       refreshToken:
         type: string
       role:
@@ -47,12 +61,27 @@ definitions:
     type: object
   model.Response:
     properties:
-      data: {}
+      data:
+        type: object
       message:
         type: string
       success:
         type: boolean
     type: object
+<<<<<<< HEAD
+=======
+  model.Segment:
+    properties:
+      callId:
+        type: integer
+      emotion:
+        type: string
+      id:
+        type: integer
+      segNum:
+        type: integer
+    type: object
+>>>>>>> c49ca4fb5c7f89869d6acc105410659212e1fa24
   model.User:
     properties:
       companyName:
@@ -80,6 +109,195 @@ info:
   title: Speech Emotion Recognition APIs
   version: "1.0"
 paths:
+  /file/storage/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete file
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: type
+        enum:
+        - sound
+        in: query
+        name: type
+        required: true
+        type: string
+      - description: name
+        in: query
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete file
+      tags:
+      - file-manager-apis
+  /file/storage/multi/{id}:
+    post:
+      consumes:
+      - application/json
+      description: Import file
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: file data
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: type
+        enum:
+        - sound
+        in: query
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Import file
+      tags:
+      - file-manager-apis
+  /segment/{id}:
+    get:
+      consumes:
+      - application/json
+      description: input id => Segment
+      parameters:
+      - description: Segment Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Get segment with Id
+      tags:
+      - segment-manager-apis
+  /segment/all:
+    get:
+      consumes:
+      - application/json
+      description: input none => []Segment
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Get all segments
+      tags:
+      - segment-manager-apis
+  /segment/call/{callId}:
+    get:
+      consumes:
+      - application/json
+      description: input callId => []Segment
+      parameters:
+      - description: Call Id
+        in: path
+        name: callId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Get segment with CallId
+      tags:
+      - segment-manager-apis
+  /segment/create:
+    post:
+      consumes:
+      - application/json
+      description: input segmentInfo => Segment
+      parameters:
+      - description: Segment info
+        in: body
+        name: segmentInfo
+        required: true
+        schema:
+          $ref: '#/definitions/model.Segment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Create segment
+      tags:
+      - segment-manager-apis
+  /segment/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: input id => deleted segment
+      parameters:
+      - description: Segment Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: deletes one segment from db with id
+      tags:
+      - segment-manager-apis
+  /segment/emo/{id}:
+    get:
+      consumes:
+      - application/json
+      description: input id => emotion
+      parameters:
+      - description: Segment Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Get segment emotion with Id
+      tags:
+      - segment-manager-apis
   /user/all:
     get:
       consumes:
@@ -114,6 +332,11 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.CreateResponse'
+<<<<<<< HEAD
+=======
+      security:
+      - ApiKeyAuth: []
+>>>>>>> c49ca4fb5c7f89869d6acc105410659212e1fa24
       summary: creates new user
       tags:
       - user-manager-apis
@@ -135,6 +358,11 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Response'
+<<<<<<< HEAD
+=======
+      security:
+      - ApiKeyAuth: []
+>>>>>>> c49ca4fb5c7f89869d6acc105410659212e1fa24
       summary: delete user
       tags:
       - user-manager-apis
@@ -198,6 +426,11 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Response'
+<<<<<<< HEAD
+=======
+      security:
+      - ApiKeyAuth: []
+>>>>>>> c49ca4fb5c7f89869d6acc105410659212e1fa24
       summary: get user with usn
       tags:
       - user-manager-apis

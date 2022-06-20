@@ -72,10 +72,9 @@ func (r *userRepository) LoginTokenRequest(user *model.User) (bool, error) {
 		return false, nil
 	}
 
-	user.ExpiresAt = time.Now().Local().Add(time.Hour*time.Duration(infrastructure.GetExtendAccessHour())).UnixNano() / infrastructure.NANO_TO_SECOND
+	user.ExpiresAt = time.Now().Local().Add(time.Hour*time.Duration(infrastructure.GetExtendAccessHour())).UnixNano() / 100000000
 	return true, nil
 }
-
 func NewUserRepository() model.UserRepository {
 	return &userRepository{}
 }

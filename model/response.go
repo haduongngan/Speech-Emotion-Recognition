@@ -12,9 +12,7 @@ type LoginResponse struct {
 	UserId       int    `json:"userId"`
 	Role         string `json:"role"`
 	Username     string `json:"username"`
-	LocationName string `json:"locationName"`
-	Permission   bool   `json:"permission"`
-	Progress     int    `json:"progress"`
+	CompanyName  string `json:"companyName"`
 	Message      string `json:"message"`
 	Code         string `json:"code"`
 	Success      bool   `json:"success"`

@@ -6,16 +6,42 @@ import Microphone from "../components/Microphone/Microphone";
 import AudioPlayer from "../components/AudioPlayer/AudioPlayer";
 import UploadFile from "../components/UploadFile/UploadFile";
 
-
-function VoiceAllAnalystic() {
+function AllVoiceAnalystic() {
   const [files, setFiles] = useState([]);
 
   const pushFile = (file) => {
     setFiles([...files, file]);
   };
   useEffect(() => {
-    // console.log("filea", files);
-  }, [files]);
+    if (reset) {
+      setFiles([]);
+      setReset(false);
+      setSubmited(false);
+    }
+  }, [reset]);
+
+  const onReset = () => {
+    setReset(true);
+  };
+
+  const onSubmit = (file) => {
+    let path = null;
+    if (file) {
+      if (file.blobURL) path = file.blobURL;
+      else {
+        path = URL.createObjectURL(file);
+      }
+    }
+    setSubmited(true);
+    uploadAudio(path)
+      .then(() => {
+        console.log("sending");
+      })
+      .catch((err) => {
+        console.log(err.message);
+        // setIsLoading(false);
+      });
+  };
 
   return (
     <>
@@ -23,7 +49,7 @@ function VoiceAllAnalystic() {
       <Grid
         item
         spacing={3}
-        container 
+        container
         justifyContent="center"
         alignItems="center"
         sx={{ mt: 2 }}
@@ -44,4 +70,4 @@ function VoiceAllAnalystic() {
     </>
   );
 }
-export default VoiceAllAnalystic;
+export default AllVoiceAnalystic;
