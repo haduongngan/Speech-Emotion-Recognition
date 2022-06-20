@@ -74,6 +74,7 @@ def token_wav(path):
 
 
 
+
 def speech_to_text(AUDIO_PATH):
     url = "https://viettelgroup.ai/voice/api/asr/v1/rest/decode_file"
     headers = {
@@ -172,7 +173,7 @@ def split_wav_file(path, t1, t2, id_speaker):
     ext_path = 'audio_speaker/' + str(id_speaker) + '/' + str(t1) + 'newSong.wav'
     newAudio.export(ext_path, format="wav")
 
-get_token_wav('1.wav')
+
 
 def split_wav_file_df(path,df):
     for index, row in df.iterrows():
@@ -208,3 +209,5 @@ def get_all_emotion_recognition_one_people(path):
         emotion[i] = emotion[i]/count
     return emotion
 
+
+# token_wav('1.wav')

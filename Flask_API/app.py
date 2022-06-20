@@ -66,6 +66,13 @@ def delete_all_file():
     os.mkdir('/Users/nguyentrongdat/Desktop/Speechprocessing/Flask_API/audio_speaker/2')
     os.mkdir('/Users/nguyentrongdat/Desktop/Speechprocessing/Flask_API/audio_speaker/3')
 
+def getjsonreturn():
+    gender = prediction_gender('1.wav')
+    if(gender ==1):
+        gender = 'male'
+    else:
+        gender = 'female'
+    return gender
 
 def getjsonreturn():
     gender = prediction_gender('1.wav')
@@ -147,6 +154,27 @@ def save_record():
 
     return 'Done'
 
+
+
+# @app.route('/firstcallanalystic', methods=['GET', 'POST'])
+# def save_record():
+#     print('Done')
+#     file = request.files['file']
+#     try:
+#         audio = request.files["file"]
+#         path = '1.wav'
+#         audio.save(path)
+#
+#         data = {
+#             'customer': khachhang,
+#             'staff': nhanvien,
+#             'dur': dur
+#         }
+#
+#
+#
+#
+#     return 'Done'
 
 # @app.route("/predict", methods=["GET", "POST"])
 # def predictcrop():

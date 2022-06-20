@@ -91,7 +91,7 @@ Emo = ['neutral', 'calm', 'happy', 'sad', 'angry', 'fear', 'disgust', 'surprise'
 
 
 def emotion_recognition(audio_file):
-    trained_model = pickle.load(open('models/model_1623.pkl', 'rb'))
+    trained_model = pickle.load(open('models/model_162.pkl', 'rb'))
     scaler = pickle.load(open('models/scaler.pkl', 'rb'))
 
     # load audio files with librosa
@@ -108,4 +108,3 @@ def emotion_recognition(audio_file):
     return Emo[pred]
 
 
-print(emotion_recognition('1.wav'))
