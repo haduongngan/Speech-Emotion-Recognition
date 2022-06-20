@@ -193,6 +193,8 @@ from collections import Counter
 def get_all_emotion_recognition_one_people(path):
     emotion = []
     count = 0
+    for i in Emo:
+        emotion.append(i)
     for i in os.listdir(os.path.join('/Users/nguyentrongdat/Desktop/Speechprocessing/Flask_API/audio_speaker',path)):
         audio_path = os.path.join('/Users/nguyentrongdat/Desktop/Speechprocessing/Flask_API/audio_speaker',path,i)
         emo = emotion_recognition(audio_path)
@@ -200,6 +202,8 @@ def get_all_emotion_recognition_one_people(path):
         count+=1
 
     emotion = Counter(emotion)
+    # for i in emotion:
+    #     emotion[i] = int(emotion[i]) - 1
     for i in emotion:
         emotion[i] = emotion[i]/count
     return emotion

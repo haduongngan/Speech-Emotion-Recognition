@@ -87,34 +87,50 @@ def save_record():
         path = '1.wav'
         audio.save(path)
         staff = get_split(path)
-        staff = str(staff)
         dur = get_dur_audio(path)
+        dur = round(dur,2)
         dur = str(dur)
-        emo1 = get_all_emotion_recognition_one_people('1')
-
-        emo2 = get_all_emotion_recognition_one_people('2')
-
-        emo3 = get_all_emotion_recognition_one_people('3')
-
         gender1 = get_gerder_one_people('1')
         gender2 = get_gerder_one_people('2')
-        gender3 = get_gerder_one_people('3')
+        emo1 = get_all_emotion_recognition_one_people('1')
+        emo2 = get_all_emotion_recognition_one_people('2')
+        feel1 = max(emo1)
+        feel2 = max(emo2)
+
+        if staff == 1:
+            nhanvien = {
+                'gender' : gender1,
+                'emo' : emo1,
+                'feel' : feel1
+            }
+            khachhang = {
+                'gender': gender2,
+                'emo': emo2,
+                'feel': feel2
+            }
+        else:
+            nhanvien = {
+                'gender': gender2,
+                'emo': emo2,
+                'feel': feel2
+            }
+            khachhang = {
+                'gender': gender1,
+                'emo': emo1,
+                'feel': feel1
+            }
 
         data = {
-            'gender1' : gender1,
-            'gender2' : gender2,
-            'gender3' : gender3,
-            'staff' : staff,
-            'dur' : dur,
-            'emo1' : emo1,
-            'emo2': emo2,
-            'emo3' : emo3
-        }
+            'customer' : khachhang,
+            'staff' : nhanvien,
+            'dur' : dur
+         }
+
 
         print(data)
         json_obj = json.dumps(data)
         print(json_obj)
-        delete_all_file()
+        # delete_all_file()
         return json_obj
     except:
         return "Error"
