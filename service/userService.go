@@ -155,7 +155,6 @@ func (s *userService) GetByUsername(username string) (*model.UserResponse, error
 	}
 	return userResponse, nil
 }
-
 func NewUserService() UserService {
 	return &userService{
 		userRepository: repository.NewUserRepository(),

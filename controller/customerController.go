@@ -3,7 +3,6 @@ package controller
 import (
 	"encoding/json"
 	"net/http"
-	"spser/middleware"
 	"spser/model"
 	"spser/service"
 	"strconv"
@@ -88,12 +87,12 @@ func (c *customerController) CreateCustomer(w http.ResponseWriter, r *http.Reque
 // @Description Update one customer
 // @Accept json
 // @Produce json
-// @Param customer body model.Customer true "customer"
+// @Param customer body model.CustomerPhoneUpdate true "customer id and phone info"
 // @Success 200 {object} model.Response
 // @Router /customer/update [put]
 func (c *customerController) UpdateCustomer(w http.ResponseWriter, r *http.Request) {
 	var res *model.Response
-	var customer model.Customer
+	var customer model.CustomerPhoneUpdate
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&customer); err != nil {
 		badRequestResponse(w, r, err)
@@ -183,21 +182,27 @@ func (c *customerController) DeleteCustomer(w http.ResponseWriter, r *http.Reque
 // @Description Get all calls of an user with id
 // @Accept json
 // @Produce json
+// @Param phone body model.HistoryPayload true "Customer's phone number"
 // @Security ApiKeyAuth
 // @Success 200 {object} model.Response
-// @Router /customer/calls [get]
+// @Router /customer/calls [put]
 func (c *customerController) GetAllCall(w http.ResponseWriter, r *http.Request) {
 	var res *model.Response
 
-	reqToken := r.Header.Get("Authorization")
-	user, err := middleware.GetClaimsData(reqToken)
+	// reqToken := r.Header.Get("Authorization")
+	// user, err := middleware.GetClaimsData(reqToken)
 
-	if err != nil {
+	// if err != nil {
+	// 	badRequestResponse(w, r, err)
+	// 	return
+	// }
+	var payload model.HistoryPayload
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&payload); err != nil {
 		badRequestResponse(w, r, err)
 		return
 	}
-
-	calls, err := c.customerService.GetAllCall(user.Id)
+	calls, err := c.customerService.GetAllCall(payload.Phone)
 	if err != nil {
 		internalServerErrorResponse(w, r, err)
 		return
@@ -231,15 +236,15 @@ func (c *customerController) FilterCallInTime(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	reqToken := r.Header.Get("Authorization")
-	user, err := middleware.GetClaimsData(reqToken)
+	// reqToken := r.Header.Get("Authorization")
+	// user, err := middleware.GetClaimsData(reqToken)
 
-	if err != nil {
-		badRequestResponse(w, r, err)
-		return
-	}
+	// if err != nil {
+	// 	badRequestResponse(w, r, err)
+	// 	return
+	// }
 
-	payload.UserId = user.Id
+	// payload.UserId = user.Id
 	calls, err := c.customerService.FilterCallInTime(&payload)
 	if err != nil {
 		internalServerErrorResponse(w, r, err)

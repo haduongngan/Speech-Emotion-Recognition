@@ -1,8 +1,9 @@
 import React  from 'react';
 import { useRoutes, Outlet  } from "react-router-dom";
-import Microphone from "./components/Microphone/Microphone";
+// import Microphone from "./components/Microphone/Microphone";
 import NavBar from "./components/NavBar/NavBar";
-import VoiceAllAnalystic from "./page/VoiceAllAnalystic";
+import FirstVoiceAnalystic from './page/FirstVoiceAnalystic';
+import AllVoiceAnalystic from "./page/AllVoiceAnalystic";
 
 // ----------------------------------------------------------------------
 
@@ -12,13 +13,10 @@ export default function Router() {
       path: "/*",
       element: (<> <NavBar /> <Outlet /></>),
       children: [
-        { path: "*", element: <VoiceAllAnalystic /> },
-        { path: "call", element: <VoiceAllAnalystic /> },
-        { path: "voice", element: <Microphone /> },
+        { path: "*", element: <AllVoiceAnalystic /> },
+        { path: "call", element: <AllVoiceAnalystic /> },
+        { path: "voice", element: <FirstVoiceAnalystic /> },
       ],
     },
-    // {
-    //   path: "/call", element: <VoiceAllAnalystic /> 
-    // },
   ]);
 }

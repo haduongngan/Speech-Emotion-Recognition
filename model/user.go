@@ -36,10 +36,10 @@ type CreateResponse struct {
 	Success     bool   `json:"success"`
 }
 
-type IdProgressPayload struct {
-	Username string `json:"username"`
-	Progress int    `json:"progress"`
-}
+// type IdProgressPayload struct {
+// 	Username string `json:"username"`
+// 	Progress int    `json:"progress"`
+// }
 
 type UserRepository interface {
 	GetAll() ([]User, error)

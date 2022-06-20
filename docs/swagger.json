@@ -225,7 +225,7 @@
             }
         },
         "/customer/calls": {
-            "get": {
+            "put": {
                 "security": [
                     {
                         "ApiKeyAuth": []
@@ -242,6 +242,17 @@
                     "customer-manager-apis"
                 ],
                 "summary": "Get all calls of an user with id",
+                "parameters": [
+                    {
+                        "description": "Customer's phone number",
+                        "name": "phone",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.HistoryPayload"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -372,12 +383,12 @@
                 "summary": "Update one customer",
                 "parameters": [
                     {
-                        "description": "customer",
+                        "description": "customer id and phone info",
                         "name": "customer",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.Customer"
+                            "$ref": "#/definitions/model.CustomerPhoneUpdate"
                         }
                     }
                 ],
@@ -404,228 +415,6 @@
                     "customer-manager-apis"
                 ],
                 "summary": "Get one customer",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/employee/all": {
-            "get": {
-                "description": "Get all employees",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "employee-manager-apis"
-                ],
-                "summary": "Get all employees",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/employee/calls": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Get all calls of an user with id",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "employee-manager-apis"
-                ],
-                "summary": "Get all calls of an user with id",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/employee/create": {
-            "post": {
-                "description": "Get all employees",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "employee-manager-apis"
-                ],
-                "summary": "Get all employees",
-                "parameters": [
-                    {
-                        "description": "employee",
-                        "name": "employee",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.Employee"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/employee/delete/{id}": {
-            "delete": {
-                "description": "Delete one employee",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "employee-manager-apis"
-                ],
-                "summary": "Delete one employee",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/employee/filter/calls": {
-            "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "model.CallTimeFilterPayload =\u003e []Call",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "employee-manager-apis"
-                ],
-                "summary": "Get all calls in timeframe of an user with id",
-                "parameters": [
-                    {
-                        "description": "payload",
-                        "name": "payload",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.CallTimeFilterPayload"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/employee/update": {
-            "put": {
-                "description": "Update one employee",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "employee-manager-apis"
-                ],
-                "summary": "Update one employee",
-                "parameters": [
-                    {
-                        "description": "employee",
-                        "name": "employee",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.Employee"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/employee/{id}": {
-            "get": {
-                "description": "Get one employee",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "employee-manager-apis"
-                ],
-                "summary": "Get one employee",
                 "parameters": [
                     {
                         "type": "integer",
@@ -970,6 +759,228 @@
                 }
             }
         },
+        "/staff/all": {
+            "get": {
+                "description": "Get all Staffs",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "staff-manager-apis"
+                ],
+                "summary": "Get all Staffs",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/staff/calls": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get all calls of an user with id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "staff-manager-apis"
+                ],
+                "summary": "Get all calls of an user with id",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/staff/create": {
+            "post": {
+                "description": "Get all Staffs",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "staff-manager-apis"
+                ],
+                "summary": "Get all Staffs",
+                "parameters": [
+                    {
+                        "description": "Staff",
+                        "name": "Staff",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Staff"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/staff/delete/{id}": {
+            "delete": {
+                "description": "Delete one Staff",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "staff-manager-apis"
+                ],
+                "summary": "Delete one Staff",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/staff/filter/calls": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "model.CallTimeFilterPayload =\u003e []Call",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "staff-manager-apis"
+                ],
+                "summary": "Get all calls in timeframe of an user with id",
+                "parameters": [
+                    {
+                        "description": "payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.StaffCallFilterPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/staff/update": {
+            "put": {
+                "description": "Update one Staff",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "staff-manager-apis"
+                ],
+                "summary": "Update one Staff",
+                "parameters": [
+                    {
+                        "description": "Staff",
+                        "name": "staffName",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.StaffNameUpdate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/staff/{id}": {
+            "get": {
+                "description": "Get one Staff",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "staff-manager-apis"
+                ],
+                "summary": "Get one Staff",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/user/all": {
             "get": {
                 "description": "returns all users",
@@ -1184,32 +1195,23 @@
         "model.Call": {
             "type": "object",
             "properties": {
-                "customerEmotion": {
-                    "type": "string"
-                },
-                "customerId": {
-                    "type": "integer"
-                },
                 "duration": {
                     "type": "string"
                 },
-                "employeeEmotion": {
+                "emotion": {
                     "type": "string"
-                },
-                "employeeId": {
-                    "type": "integer"
                 },
                 "id": {
                     "type": "integer"
                 },
-                "overallEmotion": {
+                "phone": {
                     "type": "string"
                 },
-                "segments": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/model.Segment"
-                    }
+                "staffEmotion": {
+                    "type": "string"
+                },
+                "staffId": {
+                    "type": "integer"
                 },
                 "startTime": {
                     "type": "string"
@@ -1222,11 +1224,11 @@
                 "endTime": {
                     "type": "string"
                 },
-                "startTime": {
+                "phone": {
                     "type": "string"
                 },
-                "userId": {
-                    "type": "integer"
+                "startTime": {
+                    "type": "string"
                 }
             }
         },
@@ -1256,46 +1258,33 @@
         "model.Customer": {
             "type": "object",
             "properties": {
-                "calls": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/model.Call"
-                    }
-                },
                 "id": {
                     "type": "integer"
                 },
                 "phone": {
                     "type": "string"
                 },
-                "user": {
-                    "$ref": "#/definitions/model.User"
-                },
                 "userId": {
                     "type": "integer"
                 }
             }
         },
-        "model.Employee": {
+        "model.CustomerPhoneUpdate": {
             "type": "object",
             "properties": {
-                "calls": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/model.Call"
-                    }
-                },
                 "id": {
                     "type": "integer"
                 },
-                "name": {
+                "phone": {
                     "type": "string"
-                },
-                "user": {
-                    "$ref": "#/definitions/model.User"
-                },
-                "userId": {
-                    "type": "integer"
+                }
+            }
+        },
+        "model.HistoryPayload": {
+            "type": "object",
+            "properties": {
+                "phone": {
+                    "type": "string"
                 }
             }
         },
@@ -1334,9 +1323,7 @@
         "model.Response": {
             "type": "object",
             "properties": {
-                "data": {
-                    "type": "object"
-                },
+                "data": {},
                 "message": {
                     "type": "string"
                 },
@@ -1359,6 +1346,45 @@
                 },
                 "segNum": {
                     "type": "integer"
+                }
+            }
+        },
+        "model.Staff": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.StaffCallFilterPayload": {
+            "type": "object",
+            "properties": {
+                "endTime": {
+                    "type": "string"
+                },
+                "startTime": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.StaffNameUpdate": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
                 }
             }
         },

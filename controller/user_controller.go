@@ -14,7 +14,7 @@ import (
 type userController struct {
 	userService     service.UserService
 	customerService service.CustomerService
-	employeeService service.EmployeeService
+	staffService    service.StaffService
 }
 
 type UserController interface {
@@ -139,7 +139,7 @@ func (c *userController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if newUser.Role == "staff" {
-		err := c.employeeService.CreateEmployee(&model.Employee{
+		err := c.staffService.CreateStaff(&model.Staff{
 			UserId: u.Id,
 		})
 		if err != nil {
@@ -328,12 +328,11 @@ func (c *userController) LoginWithToken(w http.ResponseWriter, r *http.Request) 
 	}
 	render.JSON(w, r, jsonResponse)
 }
-
 func NewUserController() userController {
 	return userController{
 		userService:     service.NewUserService(),
 		customerService: service.NewCustomerService(),
-		employeeService: service.NewEmployeeService(),
+		staffService:    service.NewStaffService(),
 	}
 }
 

@@ -11,10 +11,10 @@ type customerService struct {
 
 type CustomerService interface {
 	GetAll() ([]model.Customer, error)
-	GetAllCall(userId int) ([]model.Call, error)
+	GetAllCall(phone string) ([]model.Call, error)
 	FilterCallInTime(payload *model.CallTimeFilterPayload) ([]model.Call, error)
 	CreateCustomer(call *model.Customer) error
-	UpdateCustomer(call *model.Customer) error
+	UpdateCustomer(payload *model.CustomerPhoneUpdate) error
 	GetById(id int) (*model.Customer, error)
 	DeleteCustomer(id int) error
 }
@@ -27,8 +27,8 @@ func (s *customerService) CreateCustomer(call *model.Customer) error {
 	return s.customerRepository.CreateCustomer(call)
 }
 
-func (s *customerService) UpdateCustomer(call *model.Customer) error {
-	return s.customerRepository.UpdateCustomer(call)
+func (s *customerService) UpdateCustomer(payload *model.CustomerPhoneUpdate) error {
+	return s.customerRepository.UpdateCustomer(payload)
 }
 
 func (s *customerService) GetById(id int) (*model.Customer, error) {
@@ -39,8 +39,8 @@ func (s *customerService) DeleteCustomer(id int) error {
 	return s.customerRepository.DeleteCustomer(id)
 }
 
-func (s *customerService) GetAllCall(userId int) ([]model.Call, error) {
-	return s.customerRepository.GetAllCall(userId)
+func (s *customerService) GetAllCall(phone string) ([]model.Call, error) {
+	return s.customerRepository.GetAllCall(phone)
 }
 
 func (s *customerService) FilterCallInTime(payload *model.CallTimeFilterPayload) ([]model.Call, error) {
