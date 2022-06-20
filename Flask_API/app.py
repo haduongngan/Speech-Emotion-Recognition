@@ -7,6 +7,7 @@ import audioread
 from flask import Flask, request #import main Flask class and request object
 from flask_cors import CORS
 import logging
+from callapi import *
 
 logging.basicConfig(level=logging.INFO)
 
@@ -48,23 +49,35 @@ def prediction_gender(wav):
     outputs = list(outputs.cpu())
     prediction_data = max(outputs)
     prediction_data=outputs.index(prediction_data)
+    if prediction_data == 1:
+        prediction_data = 'male'
+    else:
+        prediction_data = 'female'
     return prediction_data
 
 
 
-
-def getjsonreturn():
-    gender = prediction_gender('1.wav')
-    if(gender ==1):
-        gender = 'male'
-    else:
-        gender = 'female'
-    return gender
-
-
+def delete_all_file():
+    import shutil
+    shutil.rmtree('/Users/nguyentrongdat/Desktop/Speechprocessing/Flask_API/audio_speaker/1')
+    shutil.rmtree('/Users/nguyentrongdat/Desktop/Speechprocessing/Flask_API/audio_speaker/2')
+    shutil.rmtree('/Users/nguyentrongdat/Desktop/Speechprocessing/Flask_API/audio_speaker/3')
+    os.mkdir('/Users/nguyentrongdat/Desktop/Speechprocessing/Flask_API/audio_speaker/1')
+    os.mkdir('/Users/nguyentrongdat/Desktop/Speechprocessing/Flask_API/audio_speaker/2')
+    os.mkdir('/Users/nguyentrongdat/Desktop/Speechprocessing/Flask_API/audio_speaker/3')
 
 
-# Get the blob of type "audio/webm;codecs=opus"
+
+def get_gerder_one_people(path):
+
+    for i in os.listdir(os.path.join('/Users/nguyentrongdat/Desktop/Speechprocessing/Flask_API/audio_speaker',path)):
+        audio_path = os.path.join('/Users/nguyentrongdat/Desktop/Speechprocessing/Flask_API/audio_speaker',path,i)
+        return prediction_gender(audio_path)
+        break
+
+
+
+
 @app.route('/audio_record', methods=['GET', 'POST'])
 def save_record():
     print('Done')
@@ -73,8 +86,41 @@ def save_record():
         audio = request.files["file"]
         path = '1.wav'
         audio.save(path)
+        staff = get_split(path)
+        staff = str(staff)
+        dur = get_dur_audio(path)
+        dur = str(dur)
+        emo1 = get_all_emotion_recognition_one_people('1')
+
+        emo2 = get_all_emotion_recognition_one_people('2')
+
+        emo3 = get_all_emotion_recognition_one_people('3')
+
+        gender1 = get_gerder_one_people('1')
+        gender2 = get_gerder_one_people('2')
+        gender3 = get_gerder_one_people('3')
+
+        data = {
+            'gender1' : gender1,
+            'gender2' : gender2,
+            'gender3' : gender3,
+            'staff' : staff,
+            'dur' : dur,
+            'emo1' : emo1,
+            'emo2': emo2,
+            'emo3' : emo3
+        }
+
+        print(data)
+        json_obj = json.dumps(data)
+        print(json_obj)
+        # delete_all_file()
+        return json_obj
     except:
-        print('B')
+        return "Error"
+
+
+    return 'Done'
 
 
 
@@ -89,5 +135,5 @@ def hello_world():
 
 
 
-# if __name__ == "__main__":
-#     app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
