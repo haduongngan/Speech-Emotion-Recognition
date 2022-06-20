@@ -85,13 +85,13 @@ func (c *callController) CreateCall(w http.ResponseWriter, r *http.Request) {
 	customer := msgMap["customer"].(map[string]interface{})
 	call.CustomerEmotion = customer["feel"].(string)
 	call.StartTime = time.Now()
-	staffIdString := msgMap["staffId"].(string)
-	staffId, err := strconv.Atoi(staffIdString)
-	if err != nil {
-		badRequestResponse(w, r, err)
-		return
-	}
-	call.StaffId = staffId
+	// staffIdString := msgMap["staffId"].(string)
+	// staffId, err := strconv.Atoi(staffIdString)
+	// if err != nil {
+	// 	badRequestResponse(w, r, err)
+	// 	return
+	// }
+	call.StaffId = int((msgMap["staffId"].(float64)))
 	// decoder := json.NewDecoder(r.Body)
 	// if err := decoder.Decode(&call); err != nil {
 	// 	badRequestResponse(w, r, err)
