@@ -42,12 +42,24 @@ function VoicesHistory() {
     <div>
       <Container sx={{ marginTop: 4 }}>
         <Stack mb={5}>
-          <Card>
+          <Card
+            sx={{
+              maxWidth: 500,
+              minWidth: 240,
+              margin: "auto",
+              transition: "0.3s",
+              boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
+              "&:hover": {
+                boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)",
+              },
+              background: "#ffe7f4 !important",
+            }}
+          >
             <Title title={"Statistical data"} />
 
             <Table>
               <ProductTableHeader head={TABLE_HEAD} />
-              <TableBody>
+              <TableBody sx={{ background: "#FFF !important" }}>
                 <TableRow>
                   <TableCell align="center" colSpan={12} sx={{ py: 3 }}>
                     <CircularProgress color="secondary" />
