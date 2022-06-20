@@ -12,7 +12,9 @@ import (
 )
 
 type userController struct {
-	userService service.UserService
+	userService     service.UserService
+	customerService service.CustomerService
+	staffService    service.StaffService
 }
 
 type UserController interface {
@@ -121,6 +123,31 @@ func (c *userController) CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	u, err := c.userService.GetByUsername(newUser.Username)
+	if err != nil {
+		internalServerErrorResponse(w, r, err)
+		return
+	}
+	if newUser.Role == "customer" {
+		err := c.customerService.CreateCustomer(&model.Customer{
+			UserId: u.Id,
+		})
+		if err != nil {
+			internalServerErrorResponse(w, r, err)
+			return
+		}
+	}
+
+	if newUser.Role == "staff" {
+		err := c.staffService.CreateStaff(&model.Staff{
+			UserId: u.Id,
+		})
+		if err != nil {
+			internalServerErrorResponse(w, r, err)
+			return
+		}
+	}
+
 	jsonResponse = &model.CreateResponse{
 		Username:    userResponse.Username,
 		Role:        userResponse.Role,
@@ -128,6 +155,8 @@ func (c *userController) CreateUser(w http.ResponseWriter, r *http.Request) {
 		Message:     "OK",
 		Success:     true,
 	}
+
+	render.JSON(w, r, jsonResponse)
 }
 
 // DeleteUser deletes user with UserID
@@ -299,10 +328,11 @@ func (c *userController) LoginWithToken(w http.ResponseWriter, r *http.Request) 
 	}
 	render.JSON(w, r, jsonResponse)
 }
-
 func NewUserController() userController {
 	return userController{
-		userService: service.NewUserService(),
+		userService:     service.NewUserService(),
+		customerService: service.NewCustomerService(),
+		staffService:    service.NewStaffService(),
 	}
 }
 

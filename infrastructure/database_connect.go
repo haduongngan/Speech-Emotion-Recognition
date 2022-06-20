@@ -56,7 +56,7 @@ func InitDatabase(allowMigrate bool) error {
 		db.AutoMigrate(
 			&model.User{},
 			&model.Customer{},
-			&model.Employee{},
+			&model.Staff{},
 			&model.Call{},
 			&model.Segment{},
 		)

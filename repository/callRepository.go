@@ -14,7 +14,7 @@ func (r *callRepository) GetAll() ([]model.Call, error) {
 
 	var calls []model.Call
 
-	if err := db.Model(&model.Call{}).Find(&calls).Error; err != nil {
+	if err := db.Preload("Segments").Model(&model.Call{}).Find(&calls).Error; err != nil {
 		return nil, err
 	}
 
@@ -31,6 +31,15 @@ func (r *callRepository) CreateCall(call *model.Call) error {
 	return nil
 }
 
+func (r *callRepository) CreateMultiCall(calls []model.Call) error {
+	db := infrastructure.GetDB()
+
+	if err := db.Model(&model.Call{}).Create(&calls).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
 func (r *callRepository) UpdateCall(call *model.Call) error {
 	db := infrastructure.GetDB()
 
@@ -46,9 +55,22 @@ func (r *callRepository) GetById(id int) (*model.Call, error) {
 
 	var call model.Call
 
-	if err := db.Model(&model.Call{}).Where("id = ?", id).First(&call).Error; err != nil {
+	if err := db.Preload("Segments").Model(&model.Call{}).Where("id = ?", id).First(&call).Error; err != nil {
 		return nil, err
 	}
 
 	return &call, nil
+}
+
+func (r *callRepository) DeleteCall(id int) error {
+	db := infrastructure.GetDB()
+
+	if err := db.Model(&model.Call{}).Where("id = ?", id).Delete(&model.Call{}).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+func NewCallRepository() model.CallRepository {
+	return &callRepository{}
 }

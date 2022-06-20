@@ -108,3 +108,4 @@ def emotion_recognition(audio_file):
     return Emo[pred]
 
 
+print(emotion_recognition('1.wav'))

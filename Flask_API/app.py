@@ -67,6 +67,15 @@ def delete_all_file():
     os.mkdir('/Users/nguyentrongdat/Desktop/Speechprocessing/Flask_API/audio_speaker/3')
 
 
+def getjsonreturn():
+    gender = prediction_gender('1.wav')
+    if(gender ==1):
+        gender = 'male'
+    else:
+        gender = 'female'
+    return gender
+
+
 
 def get_gerder_one_people(path):
 
@@ -138,6 +147,21 @@ def save_record():
 
     return 'Done'
 
+
+# @app.route("/predict", methods=["GET", "POST"])
+# def predictcrop():
+#     try:
+#         if request.method == "POST":
+#             form_values = request.form.to_dict()
+#             column_names = ["N", "P", "K", "temperature", "humidity", "ph", "rainfall"]
+#             input_data = np.asarray([float(form_values[i].strip()) for i in column_names]).reshape(
+#                 1, -1
+#             )
+#             prediction_data = crop_prediction(input_data)
+#             json_obj = json.dumps(prediction_data, default=convert)
+#             return json_obj
+#     except:
+#         return json.dumps({"error":"Please Enter Valid Data"}, default=convert)
 
 
 
