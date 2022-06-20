@@ -6,6 +6,8 @@ import AudioPlayer from "../components/AudioPlayer/AudioPlayer";
 import UploadFile from "../components/UploadFile/UploadFile";
 import { uploadAudio } from "../apis/voiceProcessing";
 import AudioPlayerWithStaff from "../components/AudioPlayer/AudioPlayerWithStaff";
+import Emotion from "../components/Table/Emotion";
+import VoicesHistory from "../components/Table/VoicesHistory";
 
 function AllVoiceAnalystic() {
   const [files, setFiles] = useState([]);
@@ -29,16 +31,9 @@ function AllVoiceAnalystic() {
   const onSubmit = (file) => {
     // let path = null;
     let path = new FormData();
-    if(file) {
-
+    if (file) {
       path.append("file", file);
     }
-    // if (file) {
-    //   if (file.blobURL) path = file.blobURL;
-    //   else {
-    //     path = URL.createObjectURL(file);
-    //   }
-    // }
     setSubmited(true);
     uploadAudio(path)
       .then(() => {
@@ -63,7 +58,11 @@ function AllVoiceAnalystic() {
         <Microphone pushFile={pushFile} onReset={onReset} />
         <UploadFile pushFile={pushFile} onReset={onReset} />
       </Stack>
-      <Stack container direction="column" spacing={3}>
+      <Stack container direction="column" spacing={1}>
+        <Stack container direction="row" justifyContent="center" spacing={3}>
+          <Emotion title={"Emotion Analystics"} />
+          <VoicesHistory />
+        </Stack>
         {files[0] && (
           <>
             <Stack
