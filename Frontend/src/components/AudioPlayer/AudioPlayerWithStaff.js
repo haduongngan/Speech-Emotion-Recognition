@@ -4,15 +4,20 @@ import AudioPlayer from "./AudioPlayer";
 
 function AudioPlayerWithStaff({ file, onReset, phonenumber, staff }) {
   return (
-    <Stack direction="row" alignItems="center" justifyContent="center">
-      <Box sx={{ width: 600 }}>
+    <Stack
+      spacing={2}
+      direction="row"
+      alignItems="center"
+      sx={{ minWidth: 600 }}
+    >
+      <Box sx={{ width: "100%" }}>
         <AudioPlayer file={file} onReset={onReset} />
       </Box>
       <Stack
-        spacing={2}
         direction="column"
         justifyContent="center"
         alignItems="center"
+        spacing={2}
         sx={{ m: 2 }}
       >
         <Card sx={{ minWidth: 180, minHeight: 30 }}>

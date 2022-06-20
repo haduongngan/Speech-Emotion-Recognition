@@ -7,6 +7,8 @@ import MaleIcon from "@mui/icons-material/Male";
 // import ProductTableHeader from "./ProductTableHeader";
 import Title from "../Items/Title";
 
+const gender = "d";
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -34,12 +36,13 @@ const Item2 = styled(Paper)(({ theme }) => ({
 function Emotion({ data, title }) {
   return (
     <div>
-      <Container sx={{ marginTop: 2 }}>
+      <Container sx={{ marginTop: 4 }}>
         <Stack mb={5}>
           <Card
             sx={{
-              maxWidth: 400,
+              maxWidth: 500,
               minWidth: 240,
+              margin: "auto",
               transition: "0.3s",
               boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
               "&:hover": {
@@ -57,33 +60,33 @@ function Emotion({ data, title }) {
                 columnSpacing={{ xs: 1, sm: 1, md: 1 }}
               >
                 <Grid item xs={6}>
-                  <Item>Neutral: {data.emo.neutral}</Item>
+                  <Item>Neutral: 22.22</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Calm : {data.emo.calm} </Item>
+                  <Item>Calm : 22.22</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Happy : {data.emo.happy}</Item>
+                  <Item>Happy : 22.22</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Sad : {data.emo.sad}</Item>
+                  <Item>Sad : 22.22</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Angry : {data.emo.angry}</Item>
+                  <Item>Angry : 22.22</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Fear : {data.emo.fear}</Item>
+                  <Item>Fear : 22.22</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Disgust : {data.emo.disgust}</Item>
+                  <Item>Disgust : 22.22</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Supprise : {data.emo.supprise}</Item>
+                  <Item>Supprise : 22.22</Item>
                 </Grid>
                 <Grid item xs={2}>
                   <Item2>
                     {" "}
-                    {data.gender === "male" ? (
+                    {gender === "male" ? (
                       <MaleIcon color="primary" />
                     ) : (
                       <FemaleIcon color="secondary" />
@@ -91,7 +94,7 @@ function Emotion({ data, title }) {
                   </Item2>
                 </Grid>
                 <Grid item xs={10}>
-                  <Item2>Feeling: {data.feel}</Item2>
+                  <Item2>feeling:</Item2>
                 </Grid>
               </Grid>
             </Box>
