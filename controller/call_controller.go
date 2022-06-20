@@ -2,10 +2,13 @@ package controller
 
 import (
 	"encoding/json"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"spser/model"
 	"spser/service"
 	"strconv"
+	"time"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
@@ -59,13 +62,41 @@ func (c *callController) GetAll(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {object} model.Response
 // @Router /call/create [post]
 func (c *callController) CreateCall(w http.ResponseWriter, r *http.Request) {
-	var res *model.Response
-	var call model.Call
-	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&call); err != nil {
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
 		badRequestResponse(w, r, err)
 		return
 	}
+	var msgMapTemplate interface{}
+	if err := json.Unmarshal(body, &msgMapTemplate); err != nil {
+		badRequestResponse(w, r, err)
+		return
+	}
+
+	msgMap := msgMapTemplate.(map[string]interface{})
+	log.Println(msgMap)
+
+	var res *model.Response
+	var call model.Call
+	call.Duration = (msgMap["dur"].(string))
+	call.Phone = (msgMap["phone"].(string))
+	staff := msgMap["staff"].(map[string]interface{})
+	call.StaffEmotion = staff["feel"].(string)
+	customer := msgMap["customer"].(map[string]interface{})
+	call.CustomerEmotion = customer["feel"].(string)
+	call.StartTime = time.Now()
+	staffIdString := msgMap["staffId"].(string)
+	staffId, err := strconv.Atoi(staffIdString)
+	if err != nil {
+		badRequestResponse(w, r, err)
+		return
+	}
+	call.StaffId = staffId
+	// decoder := json.NewDecoder(r.Body)
+	// if err := decoder.Decode(&call); err != nil {
+	// 	badRequestResponse(w, r, err)
+	// 	return
+	// }
 
 	if err := c.callService.CreateCall(&call); err != nil {
 		internalServerErrorResponse(w, r, err)

@@ -90,7 +90,8 @@ definitions:
     type: object
   model.Response:
     properties:
-      data: {}
+      data:
+        type: object
       message:
         type: string
       success:

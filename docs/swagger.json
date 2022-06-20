@@ -1323,7 +1323,9 @@
         "model.Response": {
             "type": "object",
             "properties": {
-                "data": {},
+                "data": {
+                    "type": "object"
+                },
                 "message": {
                     "type": "string"
                 },
