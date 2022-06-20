@@ -28,3 +28,7 @@ yarn-error.log*
 .idea/
 
 React_Frontend
+/Flask_API/df.csv
+/Flask_API/requirements.txt
+/Flask_API/runtime.txt
+/Flask_API/speech.json
