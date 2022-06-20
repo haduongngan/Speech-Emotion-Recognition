@@ -114,7 +114,7 @@ def save_record():
         print(data)
         json_obj = json.dumps(data)
         print(json_obj)
-        # delete_all_file()
+        delete_all_file()
         return json_obj
     except:
         return "Error"
