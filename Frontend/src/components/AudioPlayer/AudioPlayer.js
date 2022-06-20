@@ -31,7 +31,7 @@ import Grid from "@mui/material/Grid";
 //   "http://i.pravatar.cc/300?img=4",
 // ];
 
-function AudioPlayer({ file }) {
+function AudioPlayer({ file, onReset }) {
   const wavesurfer = useRef(null);
 
   // const [playerReady, setPlayerReady] = useState(false);
@@ -92,7 +92,7 @@ function AudioPlayer({ file }) {
 
   const stopPlayback = () => wavesurfer.current.stop();
   const deleteFile = () => {
-    file = null;
+    onReset();
   };
 
   let transportPlayButton;

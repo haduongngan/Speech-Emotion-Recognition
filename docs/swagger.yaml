@@ -5,6 +5,38 @@ definitions:
       refreshToken:
         type: string
     type: object
+  model.Call:
+    properties:
+      customerEmotion:
+        type: string
+      customerId:
+        type: integer
+      duration:
+        type: string
+      employeeEmotion:
+        type: string
+      employeeId:
+        type: integer
+      id:
+        type: integer
+      overallEmotion:
+        type: string
+      segments:
+        items:
+          $ref: '#/definitions/model.Segment'
+        type: array
+      startTime:
+        type: string
+    type: object
+  model.CallTimeFilterPayload:
+    properties:
+      endTime:
+        type: string
+      startTime:
+        type: string
+      userId:
+        type: integer
+    type: object
   model.CreateResponse:
     properties:
 <<<<<<< HEAD
@@ -26,6 +58,36 @@ definitions:
         type: boolean
       username:
         type: string
+    type: object
+  model.Customer:
+    properties:
+      calls:
+        items:
+          $ref: '#/definitions/model.Call'
+        type: array
+      id:
+        type: integer
+      phone:
+        type: string
+      user:
+        $ref: '#/definitions/model.User'
+      userId:
+        type: integer
+    type: object
+  model.Employee:
+    properties:
+      calls:
+        items:
+          $ref: '#/definitions/model.Call'
+        type: array
+      id:
+        type: integer
+      name:
+        type: string
+      user:
+        $ref: '#/definitions/model.User'
+      userId:
+        type: integer
     type: object
   model.LoginResponse:
     properties:
@@ -109,6 +171,415 @@ info:
   title: Speech Emotion Recognition APIs
   version: "1.0"
 paths:
+  /call/{id}:
+    get:
+      consumes:
+      - application/json
+      description: input id => Call
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Get a call by id
+      tags:
+      - call-manager-apis
+  /call/all:
+    get:
+      consumes:
+      - application/json
+      description: input none => []Call
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Get all calls
+      tags:
+      - call-manager-apis
+  /call/create:
+    post:
+      consumes:
+      - application/json
+      description: input Call => Call
+      parameters:
+      - description: Call
+        in: body
+        name: call
+        required: true
+        schema:
+          $ref: '#/definitions/model.Call'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Create a call
+      tags:
+      - call-manager-apis
+  /call/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: input id => delete Call
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Delete a call
+      tags:
+      - call-manager-apis
+  /call/multi/create:
+    post:
+      consumes:
+      - application/json
+      description: input []Call => add []Call
+      parameters:
+      - description: Calls info
+        in: body
+        name: calls
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/model.Call'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Create multiple calls
+      tags:
+      - call-manager-apis
+  /call/update:
+    put:
+      consumes:
+      - application/json
+      description: input Call => update Call
+      parameters:
+      - description: Call
+        in: body
+        name: call
+        required: true
+        schema:
+          $ref: '#/definitions/model.Call'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Update a call
+      tags:
+      - call-manager-apis
+  /customer/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get one customer
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Get one customer
+      tags:
+      - customer-manager-apis
+  /customer/all:
+    get:
+      consumes:
+      - application/json
+      description: Get all customers
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Get all customers
+      tags:
+      - customer-manager-apis
+  /customer/calls:
+    get:
+      consumes:
+      - application/json
+      description: Get all calls of an user with id
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all calls of an user with id
+      tags:
+      - customer-manager-apis
+  /customer/calls/filter:
+    put:
+      consumes:
+      - application/json
+      description: model.CallTimeFilterPayload => []Call
+      parameters:
+      - description: payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/model.CallTimeFilterPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all calls in timeframe of an user with id
+      tags:
+      - customer-manager-apis
+  /customer/create:
+    post:
+      consumes:
+      - application/json
+      description: Get all customers
+      parameters:
+      - description: customer
+        in: body
+        name: customer
+        required: true
+        schema:
+          $ref: '#/definitions/model.Customer'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Get all customers
+      tags:
+      - customer-manager-apis
+  /customer/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete one customer
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Delete one customer
+      tags:
+      - customer-manager-apis
+  /customer/update:
+    put:
+      consumes:
+      - application/json
+      description: Update one customer
+      parameters:
+      - description: customer
+        in: body
+        name: customer
+        required: true
+        schema:
+          $ref: '#/definitions/model.Customer'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Update one customer
+      tags:
+      - customer-manager-apis
+  /employee/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get one employee
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Get one employee
+      tags:
+      - employee-manager-apis
+  /employee/all:
+    get:
+      consumes:
+      - application/json
+      description: Get all employees
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Get all employees
+      tags:
+      - employee-manager-apis
+  /employee/calls:
+    get:
+      consumes:
+      - application/json
+      description: Get all calls of an user with id
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all calls of an user with id
+      tags:
+      - employee-manager-apis
+  /employee/create:
+    post:
+      consumes:
+      - application/json
+      description: Get all employees
+      parameters:
+      - description: employee
+        in: body
+        name: employee
+        required: true
+        schema:
+          $ref: '#/definitions/model.Employee'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Get all employees
+      tags:
+      - employee-manager-apis
+  /employee/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete one employee
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Delete one employee
+      tags:
+      - employee-manager-apis
+  /employee/filter/calls:
+    put:
+      consumes:
+      - application/json
+      description: model.CallTimeFilterPayload => []Call
+      parameters:
+      - description: payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/model.CallTimeFilterPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all calls in timeframe of an user with id
+      tags:
+      - employee-manager-apis
+  /employee/update:
+    put:
+      consumes:
+      - application/json
+      description: Update one employee
+      parameters:
+      - description: employee
+        in: body
+        name: employee
+        required: true
+        schema:
+          $ref: '#/definitions/model.Employee'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Update one employee
+      tags:
+      - employee-manager-apis
   /file/storage/{id}:
     delete:
       consumes:
@@ -254,6 +725,30 @@ paths:
           schema:
             $ref: '#/definitions/model.Response'
       summary: Create segment
+      tags:
+      - segment-manager-apis
+  /segment/create/multi:
+    post:
+      consumes:
+      - application/json
+      description: input segmentInfo => []Segment
+      parameters:
+      - description: Segment info
+        in: body
+        name: segmentInfo
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/model.Segment'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: Create multiple segments
       tags:
       - segment-manager-apis
   /segment/delete/{id}:
