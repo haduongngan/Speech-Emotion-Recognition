@@ -7,9 +7,10 @@ import {
   Typography,
   Card,
   // getNativeSelectUtilityClasses,
+  CircularProgress,
 } from "@mui/material";
 
-import NavBar from "../components/NavBar/NavBar";
+// import NavBar from "../components/NavBar/NavBar";
 import Microphone from "../components/Microphone/Microphone";
 import AudioPlayer from "../components/AudioPlayer/AudioPlayer";
 import UploadFile from "../components/UploadFile/UploadFile";
@@ -48,7 +49,8 @@ function AllVoiceAnalystic() {
   const [files, setFiles] = useState([]);
   const [submited, setSubmited] = useState(false);
   const [reset, setReset] = useState(false);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState(fakeData);
+  const [loading, setLoading] = useState(false);
   const pushFile = (file) => {
     setFiles([...files, file]);
   };
@@ -57,6 +59,7 @@ function AllVoiceAnalystic() {
       setFiles([]);
       setReset(false);
       setSubmited(false);
+      setLoading(false);
     }
   }, [reset]);
 
@@ -70,28 +73,31 @@ function AllVoiceAnalystic() {
     if (file) {
       path.append("file", file);
     }
+    setLoading(true);
     setSubmited(true);
     uploadAudio(path)
       .then((res) => {
         console.log("res", res.data.data);
-        setData(res.data.data);
+        if (res.data.data) {
+          setData(res.data.data);
+        }
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err.message);
-        // setIsLoading(false);
+        setLoading(false);
       });
   };
 
   return (
     <>
-      <NavBar />
-      <Grid
-        item
+      <Stack
         spacing={3}
         container
         justifyContent="center"
         alignItems="center"
-        sx={{ mt: 2 }}
+        direction="row"
+        sx={{ m: 4 }}
       >
         <Microphone pushFile={pushFile} onReset={onReset} />
         <UploadFile pushFile={pushFile} onReset={onReset} />
@@ -100,46 +106,53 @@ function AllVoiceAnalystic() {
         {files[0] && (
           <>
             <Stack
-              spacing={2}
-              direction="column"
+              spacing={3}
+              container
               justifyContent="center"
               alignItems="center"
-              sx={{ minWidth: 600 }}
+              direction="row"
+              sx={{ m: 4 }}
             >
               {!submited ? (
-                <Stack container direction="column" spacing={1}>
-                  <Stack
-                    container
-                    direction="row"
-                    justifyContent="center"
-                    spacing={3}
-                  >
-                    <AudioPlayerWithStaff
-                      file={files[0]}
-                      phonenumber={"0987654321"}
-                      staff={"Hat Nho"}
-                      onReset={onReset}
-                    />
+                loading ? (
+                  <Box align="center" colSpan={12} sx={{ py: 3 }}>
+                    <CircularProgress color="secondary" />
+                  </Box>
+                ) : (
+                  <Stack container direction="column" spacing={1}>
+                    <Stack
+                      container
+                      direction="row"
+                      justifyContent="center"
+                      spacing={3}
+                    >
+                      <AudioPlayerWithStaff
+                        file={files[0]}
+                        phonenumber={"0987654321"}
+                        staff={"Hat Nho"}
+                        onReset={onReset}
+                      />
+                    </Stack>
+                    <Stack container direction="row" justifyContent="center">
+                      <Card sx={{ width: 845 }}>
+                        <Typography textAlign="center" p={2}>
+                          {" "}
+                          Duration: {data.dur}{" "}
+                        </Typography>
+                      </Card>
+                    </Stack>
+                    <Stack container direction="row" justifyContent="center">
+                      <Emotion
+                        title={"Customer Emotion Analystics"}
+                        data={data.customer}
+                      />
+                      <Emotion
+                        title={"Staff Emotion Analystics"}
+                        data={data.staff}
+                      />
+                    </Stack>
                   </Stack>
-                  <Stack container direction="row" justifyContent="center">
-                    <Card sx={{ width: 845 }}>
-                      <Typography textAlign="center" p={2}>
-                        {" "}
-                        Duration: {data.dur}{" "}
-                      </Typography>
-                    </Card>
-                  </Stack>
-                  <Stack container direction="row" justifyContent="center">
-                    <Emotion
-                      title={"Customer Emotion Analystics"}
-                      data={data.customer}
-                    />
-                    <Emotion
-                      title={"Staff Emotion Analystics"}
-                      data={data.staff}
-                    />
-                  </Stack>
-                </Stack>
+                )
               ) : (
                 <>
                   <Box sx={{ width: "100%" }}>
@@ -181,7 +194,7 @@ function AllVoiceAnalystic() {
             </Stack>
           </>
         )}
-      </Grid>
+      </Stack>
     </>
   );
 }
