@@ -26,7 +26,7 @@ yarn-error.log*
 
 
 .idea/
-
+__pycache__
 React_Frontend
 /Flask_API/df.csv
 /Flask_API/requirements.txt

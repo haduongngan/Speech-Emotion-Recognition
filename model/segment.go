@@ -12,6 +12,7 @@ type SegmentRepository interface {
 	GetById(id int) (*Segment, error)
 	GetByCallId(callId int) ([]Segment, error)
 	CreateSegment(new *Segment) error
+	CreateMultiSegment(segments []Segment) error
 	DeleteSegment(id int) error
 	GetEmotion(id int) (string, error)
 }
