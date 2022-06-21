@@ -14,7 +14,7 @@ import {
 import Microphone from "../components/Microphone/Microphone";
 import AudioPlayer from "../components/AudioPlayer/AudioPlayer";
 import UploadFile from "../components/UploadFile/UploadFile";
-import { uploadAudio } from "../apis/voiceProcessing";
+import { uploadAudio, UploadData } from "../apis/voiceProcessing";
 import AudioPlayerWithStaff from "../components/AudioPlayer/AudioPlayerWithStaff";
 import Emotion from "../components/Table/Emotion";
 // import VoicesHistory from "../components/Table/VoicesHistory";
@@ -25,8 +25,10 @@ const fakeData = {
       sad: 2,
       angry: 0,
       calm: 0,
-      surprised: 0,
-      disgusted: 0,
+      surprise: 0,
+      disgust: 0,
+      neutral: 2,
+      fear: 2,
     },
     gender: "male",
     feel: "happy",
@@ -37,8 +39,10 @@ const fakeData = {
       sad: 2,
       angry: 0,
       calm: 0,
-      surprised: 0,
-      disgusted: 0,
+      surprise: 0,
+      disgust: 0,
+      neutral: 2,
+      fear: 2,
     },
     gender: "male",
     feel: "happy",
@@ -51,6 +55,8 @@ function AllVoiceAnalystic() {
   const [reset, setReset] = useState(false);
   const [data, setData] = useState(fakeData);
   const [loading, setLoading] = useState(false);
+  const [phone, setPhone] = useState("0394691908");
+  const [staffId, setStaffId] = useState(1);
   const pushFile = (file) => {
     setFiles([...files, file]);
   };
@@ -63,8 +69,34 @@ function AllVoiceAnalystic() {
     }
   }, [reset]);
 
+  useEffect(() => {
+    if (data && submited) {
+      let query = {
+        customer: data.customer,
+        staff: data.staff,
+        dur: data.dur,
+        phone: phone,
+        staffId: staffId,
+      };
+      UploadData(query)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [data, phone, staffId, submited]);
+
   const onReset = () => {
     setReset(true);
+  };
+
+  const onChangePhone = (e) => {
+    setPhone(e.target.value);
+  };
+  const onChangeStaffId = (e) => {
+    setStaffId(e.target.value);
   };
 
   const onSubmit = (file) => {
@@ -77,11 +109,10 @@ function AllVoiceAnalystic() {
     setSubmited(true);
     uploadAudio(path)
       .then((res) => {
-        console.log("res", res);
+        console.log("res", res.data);
         if (res.data) {
           setData(res.data);
         }
-
         setLoading(false);
       })
       .catch((err) => {
@@ -169,12 +200,16 @@ function AllVoiceAnalystic() {
                     <TextField
                       id="phonenumber"
                       label="Phone Number"
-                      defaultValue={"0987654321"}
+                      // defaultValue={"0987654321"}
+                      value={phone}
+                      onChange={onChangePhone}
                     />
                     <TextField
                       id="staff"
                       label="staff"
-                      defaultValue={"Hat Nho"}
+                      // defaultValue={staffId}
+                      value={staffId}
+                      onChange={onChangeStaffId}
                     />
                   </Stack>
                   <Stack
