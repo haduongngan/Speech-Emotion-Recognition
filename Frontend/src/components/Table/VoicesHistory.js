@@ -5,16 +5,12 @@ import {
   Stack,
   Container,
   CircularProgress,
-  TableBody,
   TableRow,
   TableCell,
 } from "@mui/material";
 import ProductTableHeader from "./ProductTableHeader";
 import Title from "../Items/Title";
-// import ProductTableContent from "../components/ProductTableContent";
-// import { TABLE_HEAD } from "../types/product";
-// import { IProduct } from "../types/product";
-// import { INIT_DATA } from "../constants/product";
+import ProductTableContent from "./ProductTableContent";
 
 const TABLE_HEAD = [
   { key: "id", label: "ID" },
@@ -24,29 +20,18 @@ const TABLE_HEAD = [
   { key: "staffId", label: "Staff Id" },
   { key: "staffEmotion", label: "Staff Emotion" },
 ];
-// const INIT_DATA = {
-//   color: 0,
-//   errorDescription: "",
-//   id: "",
-//   image: "",
-//   name: "",
-//   sku: "",
-// };
-function VoicesHistory() {
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [colors, setColors] = useState<IProductColor[]>([]);
-  // const [data, setData] = useState<IProduct[]>([]);
-  // const [show, setShow] = useState(false);
+function VoicesHistory({ data, isLoading }) {
+  console.log(data);
+  console.log(isLoading);
 
   return (
     <div>
-      <Container sx={{ marginTop: 4 }}>
+      <Container sx={{ marginTop: 2 }}>
         <Stack mb={5}>
           <Card
             sx={{
-              maxWidth: 500,
+              maxWidth: 600,
               minWidth: 240,
-              margin: "auto",
               transition: "0.3s",
               boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
               "&:hover": {
@@ -59,13 +44,15 @@ function VoicesHistory() {
 
             <Table>
               <ProductTableHeader head={TABLE_HEAD} />
-              <TableBody sx={{ background: "#FFF !important" }}>
+              {!isLoading ? (
+                <ProductTableContent data={data} />
+              ) : (
                 <TableRow>
                   <TableCell align="center" colSpan={12} sx={{ py: 3 }}>
                     <CircularProgress color="secondary" />
                   </TableCell>
                 </TableRow>
-              </TableBody>
+              )}
             </Table>
           </Card>
         </Stack>
