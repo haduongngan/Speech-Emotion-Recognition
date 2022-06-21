@@ -19,6 +19,7 @@ import AudioPlayerWithStaff from "../components/AudioPlayer/AudioPlayerWithStaff
 import Emotion from "../components/Table/Emotion";
 import VoicesHistory from "../components/Table/VoicesHistory";
 import { getHistoryByPhone } from "../apis/voiceProcessing";
+import Template from "../components/Table/Template";
 // import VoicesHistory from "../components/Table/VoicesHistory";
 const fakeData = {
   customer: {
@@ -185,10 +186,13 @@ function FirstVoiceAnalystic() {
                       </Card>
                     </Stack>
                     <Stack container direction="row" justifyContent="center">
-                      <Emotion
-                        title={"Customer Emotion Analystics"}
-                        data={data.customer}
-                      />
+                      <Stack direction="column" justifyContent="center">
+                        <Emotion
+                          title={"Customer Emotion Analystics"}
+                          data={data.customer}
+                        />
+                        <Template title="Recomendation" />
+                      </Stack>
                       <VoicesHistory data={history} isLoading={loading2} />
                     </Stack>
                   </Stack>
