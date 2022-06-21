@@ -63,7 +63,6 @@ export default function Microphone({ pushFile, onReset }) {
   }, [open, tempFile]);
 
   useEffect(() => {
-    console.log("tempFile", tempFile);
     if (tempFile) {
       wavesurfer.current.load(tempFile.blobURL);
     }
@@ -89,7 +88,6 @@ export default function Microphone({ pushFile, onReset }) {
       setTempFile(null);
       setRecord(false);
       setOpen(false);
-      console.log(tempFile);
     }
   };
 

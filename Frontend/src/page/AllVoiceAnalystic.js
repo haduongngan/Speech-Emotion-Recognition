@@ -79,9 +79,7 @@ function AllVoiceAnalystic() {
         staffId: staffId,
       };
       UploadData(query)
-        .then((res) => {
-          console.log(res);
-        })
+        .then((res) => {})
         .catch((err) => {
           console.log(err);
         });
@@ -102,6 +100,27 @@ function AllVoiceAnalystic() {
   const onSubmit = (file) => {
     // let path = null;
     let path = new FormData();
+    console.log(file);
+    if (file.blobUrl) {
+      var xhr = new XMLHttpRequest();
+
+      xhr.upload.addEventListener(
+        "progress",
+        function (e) {
+          console.log(100 * (e.loaded / e.total) + "%");
+        },
+        false
+      );
+
+      xhr.open("POST", "url", true);
+
+      var data = new FormData();
+      data.append(
+        "file",
+        new Blob([JSON.stringify(file)], { type: "application/json" })
+      );
+      xhr.send(data);
+    }
     if (file) {
       path.append("file", file);
     }
@@ -109,7 +128,6 @@ function AllVoiceAnalystic() {
     setSubmited(true);
     uploadAudio(path)
       .then((res) => {
-        console.log("res", res.data);
         if (res.data) {
           setData(res.data);
         }

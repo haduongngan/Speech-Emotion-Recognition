@@ -19,7 +19,6 @@ function ProductRow({ row }) {
     [d.getHours(), d.getMinutes(), d.getSeconds()].join(":") +
     " " +
     [d.getMonth() + 1, d.getDate(), d.getFullYear()].join("/");
-  console.log(dformat);
   return (
     <TableRow>
       <TableCell align={"center"}>{id}</TableCell>

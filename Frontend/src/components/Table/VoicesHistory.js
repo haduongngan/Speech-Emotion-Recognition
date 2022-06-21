@@ -21,8 +21,6 @@ const TABLE_HEAD = [
   { key: "staffEmotion", label: "Staff Emotion" },
 ];
 function VoicesHistory({ data, isLoading }) {
-  console.log(data);
-  console.log(isLoading);
 
   return (
     <div>

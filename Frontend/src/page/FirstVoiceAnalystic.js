@@ -108,7 +108,6 @@ function FirstVoiceAnalystic() {
     setSubmited(true);
     uploadFirstVoice(path)
       .then((res) => {
-        console.log("res", res.data);
         if (res.data) {
           setData(res.data);
         }
@@ -126,7 +125,6 @@ function FirstVoiceAnalystic() {
       .then((res) => {
         setLoading2(false);
         setHistory(res.data.data);
-        console.log(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -185,8 +183,8 @@ function FirstVoiceAnalystic() {
                         </Typography>
                       </Card>
                     </Stack>
-                    <Stack container direction="row" justifyContent="center">
-                      <Stack direction="column" justifyContent="center">
+                    <Stack container direction="row" justifyContent>
+                      <Stack direction="column">
                         <Emotion
                           title={"Customer Emotion Analystics"}
                           data={data.customer}
