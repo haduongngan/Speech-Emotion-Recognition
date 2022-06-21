@@ -146,19 +146,17 @@ def save():
         dur = str(dur)
         gender = prediction_gender(path)
         print(gender)
-        # splitwav(path, dur)
-        emo = get_all_emotion_recognition_one_people('1')
-        # emo = 'null'
-        feel = max(emo)
-        # feel = 'null'
+        # emo = emotion_recognition(path)
+        splitwav(path, dur)
+        emo = get_all_emotion_recognition_one_people('3')
+        feel = emo.most_common(1)[0][0]
+
         nhanvien = {
             'gender': gender,
             'emo': emo,
             'feel': feel
 
         }
-
-
 
         data = {
             'customer': nhanvien,
@@ -167,7 +165,7 @@ def save():
         print(data)
         json_obj = json.dumps(data)
         print(json_obj)
-        # delete_all_file()
+        delete_all_file()
         return json_obj
 
     except:
@@ -177,13 +175,16 @@ def save():
 
 
 def splitwav(path, dur):
-    for i in range(1, dur - 3, 3):
-        print(i)
-        t1 = i
-        t2 = i + 3
-        id = 3
-        split_wav_file(path, t1, t2, id)
+    id=3
+    split_wav_file(path, 0, 2, id)
+    split_wav_file(path, 2, 4, id)
+    split_wav_file(path, 4, 6, id)
+    split_wav_file(path, 6, 8, id)
+    split_wav_file(path, 8, 10, id)
+    split_wav_file(path, 10, 12, id)
+    split_wav_file(path, 12, 14, id)
 
+    split_wav_file(path, 0, 5, 3)
 
 
 @app.route('/')
