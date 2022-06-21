@@ -78,7 +78,7 @@ function Emotion({ data, title }) {
                   <Item>Disgust : {data.emo.disgust}</Item>
                 </Grid>
                 <Grid item xs={6}>
-                  <Item>Supprise : {data.emo.supprise}</Item>
+                  <Item>Surprise : {data.emo.surprise}</Item>
                 </Grid>
                 <Grid item xs={2}>
                   <Item2>

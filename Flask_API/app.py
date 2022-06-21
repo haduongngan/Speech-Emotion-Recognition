@@ -86,8 +86,10 @@ def save_record():
         gender2 = get_gerder_one_people('2')
         emo1 = get_all_emotion_recognition_one_people('1')
         emo2 = get_all_emotion_recognition_one_people('2')
-        feel1 = max(emo1)
-        feel2 = max(emo2)
+
+        print(type(emo1))
+        feel1 = emo1.most_common(1)[0][0]
+        feel2 = emo2.most_common(1)[0][0]
 
         if staff == 1:
             nhanvien = {
@@ -121,7 +123,7 @@ def save_record():
         print(data)
         json_obj = json.dumps(data)
         print(json_obj)
-        # delete_all_file()
+        delete_all_file()
         return json_obj
     except:
         return "Error"
