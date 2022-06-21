@@ -77,10 +77,11 @@ function AllVoiceAnalystic() {
     setSubmited(true);
     uploadAudio(path)
       .then((res) => {
-        console.log("res", res.data.data);
-        if (res.data.data) {
-          setData(res.data.data);
+        console.log("res", res);
+        if (res.data) {
+          setData(res.data);
         }
+
         setLoading(false);
       })
       .catch((err) => {

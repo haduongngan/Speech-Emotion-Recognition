@@ -206,7 +206,7 @@ def get_all_emotion_recognition_one_people(path):
     # for i in emotion:
     #     emotion[i] = int(emotion[i]) - 1
     for i in emotion:
-        emotion[i] = emotion[i]/count
+        emotion[i] = round(emotion[i]/count,2)
     return emotion
 
 
