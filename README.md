@@ -304,7 +304,7 @@ Trong dự án này, nhóm em đã cố gắng ứng dụng một bài toán lõ
 
 [3] API Detect different speakers in an audio recording: [https://cloud.google.com/speech-to-text/docs/multiple-voices#speech_transcribe_diarization_beta-protocol](https://cloud.google.com/speech-to-text/docs/multiple-voices#speech_transcribe_diarization_beta-protocol)
 
-[4] Detection of Emotion of Speech for RAVDESS Audio Using Hybrid Convolution Neural Network: [https://www.hindawi.com/journals/jhe/2022/8472947/](https://www.hindawi.com/journals/jhe/2022/8472947/) → [https://www.kaggle.com/dngngnh/sp-ser-hybrid](https://www.kaggle.com/dngngnh/sp-ser-hybrid)
+[4] Detection of Emotion of Speech for RAVDESS Audio Using Hybrid Convolution Neural Network: [https://www.hindawi.com/journals/jhe/2022/8472947/](https://www.hindawi.com/journals/jhe/2022/8472947/)
 
 [5] Two-Way Feature Extraction for Speech Emotion Recognition Using Deep Learning: [https://pubmed.ncbi.nlm.nih.gov/35336548/](https://pubmed.ncbi.nlm.nih.gov/35336548/)
 
